@@ -1,6 +1,7 @@
-package analysis; /**
+package environment; /**
  * Created by admin on 10/23/14.
  */
+import analysis.TypeError;
 import environment.VarType;
 import environment.Environment;
 import environment.PrimitiveType;
@@ -55,7 +56,7 @@ public class EnvironmentUtil {
             ClassType t = env.getClass(class_name);
             if (null == t)
             {
-                TypeError.close("Undefined class " + class_name  + " used in paramater ");
+                TypeError.close("Undefined class " + class_name + " used in paramater ");
             }
             return t;
         }

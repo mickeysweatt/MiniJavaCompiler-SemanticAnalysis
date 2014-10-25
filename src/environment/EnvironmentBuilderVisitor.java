@@ -1,10 +1,12 @@
-package analysis;
+package environment;
 
-import environment.*;
+import analysis.TypeError;
 import syntaxtree.*;
 import visitor.GJDepthFirst;
 
 import java.util.Enumeration;
+
+import static analysis.TypeError.*;
 
 
 /**
@@ -19,8 +21,8 @@ class EnvironmentBuilderUtil {
             VarType instanceVar = EnvironmentUtil.vardecl((VarDeclaration) e.nextElement(), env);
             if (t.containsInstanceVar(instanceVar))
             {
-                TypeError.close("Redefining instance variable " + instanceVar.variableName() +
-                                " in class " + t.getClassName());
+                close("Redefining instance variable " + instanceVar.variableName() +
+                        " in class " + t.getClassName());
             }
             t.addInstanceVar(instanceVar);
         }
@@ -33,7 +35,7 @@ class EnvironmentBuilderUtil {
         String method_name = EnvironmentUtil.methodname(m);
         environment.Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.type.nodeChoice.choice, env);
         if (t.containsMethod(method_name)) {
-            TypeError.close("Redefining method " + method_name + " in class " + t.getClassName());
+            close("Redefining method " + method_name + " in class " + t.getClassName());
             return false;
         }
         else {
@@ -63,7 +65,7 @@ class EnvironmentBuilderUtil {
            VarType parameter_type = new VarType(parameterType, parameterName);
             if (m.containsParameter(parameter_type))
             {
-                TypeError.close("Redeclaring parameter " + parameterName + " in " + m.getName());
+                close("Redeclaring parameter " + parameterName + " in " + m.getName());
             }
            else {
                 m.addParameter(parameter_type);
@@ -120,13 +122,14 @@ class ClassNameVisitor extends GJDepthFirst<Integer, Environment> {
     {
         Integer rval = 0;
         String class_name = EnvironmentUtil.classname(m);
-        if (env.containsClass(class_name))
+        if (!env.containsClass(class_name))
         {
-            TypeError.close("Redefining class " + class_name);
-            rval = -1;
-        }
-        else {
             env.addClass(new ClassType(class_name));
+        }
+        else
+        {
+            close("Redefining class " + class_name);
+            rval = -1;
         }
         super.visit(m, env);
         return rval;
@@ -138,7 +141,7 @@ class ClassNameVisitor extends GJDepthFirst<Integer, Environment> {
         String class_name = EnvironmentUtil.classname(d);
         if (env.containsClass(class_name))
         {
-            TypeError.close("Redefining class " + class_name);
+            close("Redefining class " + class_name);
             rval = -1;
 
         }

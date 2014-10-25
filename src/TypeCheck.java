@@ -2,7 +2,7 @@
  * Created by admin on 10/23/14.
  */
 
-import analysis.EnvironmentBuilderVisitor;
+import environment.EnvironmentBuilderVisitor;
 import environment.Environment;
 import  syntaxtree.*;
 import parser.MiniJavaParser;
