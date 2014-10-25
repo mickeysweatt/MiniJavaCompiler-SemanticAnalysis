@@ -27,106 +27,106 @@ public interface GJNoArguVisitor<R> {
    //
 
    /**
-    * f0 -> MainClass()
-    * f1 -> ( TypeDeclaration() )*
-    * f2 -> <EOF>
+    * mainClass -> MainClass()
+    * nodeListOptional -> ( TypeDeclaration() )*
+    * nodeToken -> <EOF>
     */
    public R visit(Goal n);
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "{"
-    * f3 -> "public"
-    * f4 -> "static"
-    * f5 -> "void"
-    * f6 -> "main"
-    * f7 -> "("
-    * f8 -> "String"
-    * f9 -> "["
-    * f10 -> "]"
-    * f11 -> Identifier()
-    * f12 -> ")"
-    * f13 -> "{"
-    * f14 -> ( VarDeclaration() )*
-    * f15 -> ( Statement() )*
-    * f16 -> "}"
-    * f17 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "{"
+    * nodeToken2 -> "public"
+    * nodeToken3 -> "static"
+    * nodeToken4 -> "void"
+    * nodeToken5 -> "main"
+    * nodeToken6 -> "("
+    * nodeToken7 -> "String"
+    * nodeToken8 -> "["
+    * nodeToken9 -> "]"
+    * identifier1 -> Identifier()
+    * nodeToken10 -> ")"
+    * nodeToken11 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( Statement() )*
+    * nodeToken12 -> "}"
+    * nodeToken13 -> "}"
     */
    public R visit(MainClass n);
 
    /**
-    * f0 -> ClassDeclaration()
+    * nodeChoice -> ClassDeclaration()
     *       | ClassExtendsDeclaration()
     */
    public R visit(TypeDeclaration n);
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "{"
-    * f3 -> ( VarDeclaration() )*
-    * f4 -> ( MethodDeclaration() )*
-    * f5 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( MethodDeclaration() )*
+    * nodeToken2 -> "}"
     */
    public R visit(ClassDeclaration n);
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "extends"
-    * f3 -> Identifier()
-    * f4 -> "{"
-    * f5 -> ( VarDeclaration() )*
-    * f6 -> ( MethodDeclaration() )*
-    * f7 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "extends"
+    * identifier1 -> Identifier()
+    * nodeToken2 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( MethodDeclaration() )*
+    * nodeToken3 -> "}"
     */
    public R visit(ClassExtendsDeclaration n);
 
    /**
-    * f0 -> Type()
-    * f1 -> Identifier()
-    * f2 -> ";"
+    * type -> Type()
+    * identifier -> Identifier()
+    * nodeToken -> ";"
     */
    public R visit(VarDeclaration n);
 
    /**
-    * f0 -> "public"
-    * f1 -> Type()
-    * f2 -> Identifier()
-    * f3 -> "("
-    * f4 -> ( FormalParameterList() )?
-    * f5 -> ")"
-    * f6 -> "{"
-    * f7 -> ( VarDeclaration() )*
-    * f8 -> ( Statement() )*
-    * f9 -> "return"
-    * f10 -> Expression()
-    * f11 -> ";"
-    * f12 -> "}"
+    * nodeToken -> "public"
+    * type -> Type()
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeOptional -> ( FormalParameterList() )?
+    * nodeToken2 -> ")"
+    * nodeToken3 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( Statement() )*
+    * nodeToken4 -> "return"
+    * expression -> Expression()
+    * nodeToken5 -> ";"
+    * nodeToken6 -> "}"
     */
    public R visit(MethodDeclaration n);
 
    /**
-    * f0 -> FormalParameter()
-    * f1 -> ( FormalParameterRest() )*
+    * formalParameter -> FormalParameter()
+    * nodeListOptional -> ( FormalParameterRest() )*
     */
    public R visit(FormalParameterList n);
 
    /**
-    * f0 -> Type()
-    * f1 -> Identifier()
+    * type -> Type()
+    * identifier -> Identifier()
     */
    public R visit(FormalParameter n);
 
    /**
-    * f0 -> ","
-    * f1 -> FormalParameter()
+    * nodeToken -> ","
+    * formalParameter -> FormalParameter()
     */
    public R visit(FormalParameterRest n);
 
    /**
-    * f0 -> ArrayType()
+    * nodeChoice -> ArrayType()
     *       | BooleanType()
     *       | IntegerType()
     *       | Identifier()
@@ -134,24 +134,24 @@ public interface GJNoArguVisitor<R> {
    public R visit(Type n);
 
    /**
-    * f0 -> "int"
-    * f1 -> "["
-    * f2 -> "]"
+    * nodeToken -> "int"
+    * nodeToken1 -> "["
+    * nodeToken2 -> "]"
     */
    public R visit(ArrayType n);
 
    /**
-    * f0 -> "boolean"
+    * nodeToken -> "boolean"
     */
    public R visit(BooleanType n);
 
    /**
-    * f0 -> "int"
+    * nodeToken -> "int"
     */
    public R visit(IntegerType n);
 
    /**
-    * f0 -> Block()
+    * nodeChoice -> Block()
     *       | AssignmentStatement()
     *       | ArrayAssignmentStatement()
     *       | IfStatement()
@@ -161,62 +161,62 @@ public interface GJNoArguVisitor<R> {
    public R visit(Statement n);
 
    /**
-    * f0 -> "{"
-    * f1 -> ( Statement() )*
-    * f2 -> "}"
+    * nodeToken -> "{"
+    * nodeListOptional -> ( Statement() )*
+    * nodeToken1 -> "}"
     */
    public R visit(Block n);
 
    /**
-    * f0 -> Identifier()
-    * f1 -> "="
-    * f2 -> Expression()
-    * f3 -> ";"
+    * identifier -> Identifier()
+    * nodeToken -> "="
+    * expression -> Expression()
+    * nodeToken1 -> ";"
     */
    public R visit(AssignmentStatement n);
 
    /**
-    * f0 -> Identifier()
-    * f1 -> "["
-    * f2 -> Expression()
-    * f3 -> "]"
-    * f4 -> "="
-    * f5 -> Expression()
-    * f6 -> ";"
+    * identifier -> Identifier()
+    * nodeToken -> "["
+    * expression -> Expression()
+    * nodeToken1 -> "]"
+    * nodeToken2 -> "="
+    * expression1 -> Expression()
+    * nodeToken3 -> ";"
     */
    public R visit(ArrayAssignmentStatement n);
 
    /**
-    * f0 -> "if"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> Statement()
-    * f5 -> "else"
-    * f6 -> Statement()
+    * nodeToken -> "if"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * statement -> Statement()
+    * nodeToken3 -> "else"
+    * statement1 -> Statement()
     */
    public R visit(IfStatement n);
 
    /**
-    * f0 -> "while"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> Statement()
+    * nodeToken -> "while"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * statement -> Statement()
     */
    public R visit(WhileStatement n);
 
    /**
-    * f0 -> "System.out.println"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> ";"
+    * nodeToken -> "System.out.println"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * nodeToken3 -> ";"
     */
    public R visit(PrintStatement n);
 
    /**
-    * f0 -> AndExpression()
+    * nodeChoice -> AndExpression()
     *       | CompareExpression()
     *       | PlusExpression()
     *       | MinusExpression()
@@ -229,79 +229,79 @@ public interface GJNoArguVisitor<R> {
    public R visit(Expression n);
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "&&"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "&&"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public R visit(AndExpression n);
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "<"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "<"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public R visit(CompareExpression n);
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "+"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "+"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public R visit(PlusExpression n);
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "-"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "-"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public R visit(MinusExpression n);
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "*"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "*"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public R visit(TimesExpression n);
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "["
-    * f2 -> PrimaryExpression()
-    * f3 -> "]"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "["
+    * primaryExpression1 -> PrimaryExpression()
+    * nodeToken1 -> "]"
     */
    public R visit(ArrayLookup n);
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "."
-    * f2 -> "length"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "."
+    * nodeToken1 -> "length"
     */
    public R visit(ArrayLength n);
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "."
-    * f2 -> Identifier()
-    * f3 -> "("
-    * f4 -> ( ExpressionList() )?
-    * f5 -> ")"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "."
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeOptional -> ( ExpressionList() )?
+    * nodeToken2 -> ")"
     */
    public R visit(MessageSend n);
 
    /**
-    * f0 -> Expression()
-    * f1 -> ( ExpressionRest() )*
+    * expression -> Expression()
+    * nodeListOptional -> ( ExpressionRest() )*
     */
    public R visit(ExpressionList n);
 
    /**
-    * f0 -> ","
-    * f1 -> Expression()
+    * nodeToken -> ","
+    * expression -> Expression()
     */
    public R visit(ExpressionRest n);
 
    /**
-    * f0 -> IntegerLiteral()
+    * nodeChoice -> IntegerLiteral()
     *       | TrueLiteral()
     *       | FalseLiteral()
     *       | Identifier()
@@ -314,57 +314,57 @@ public interface GJNoArguVisitor<R> {
    public R visit(PrimaryExpression n);
 
    /**
-    * f0 -> <INTEGER_LITERAL>
+    * nodeToken -> <INTEGER_LITERAL>
     */
    public R visit(IntegerLiteral n);
 
    /**
-    * f0 -> "true"
+    * nodeToken -> "true"
     */
    public R visit(TrueLiteral n);
 
    /**
-    * f0 -> "false"
+    * nodeToken -> "false"
     */
    public R visit(FalseLiteral n);
 
    /**
-    * f0 -> <IDENTIFIER>
+    * nodeToken -> <IDENTIFIER>
     */
    public R visit(Identifier n);
 
    /**
-    * f0 -> "this"
+    * nodeToken -> "this"
     */
    public R visit(ThisExpression n);
 
    /**
-    * f0 -> "new"
-    * f1 -> "int"
-    * f2 -> "["
-    * f3 -> Expression()
-    * f4 -> "]"
+    * nodeToken -> "new"
+    * nodeToken1 -> "int"
+    * nodeToken2 -> "["
+    * expression -> Expression()
+    * nodeToken3 -> "]"
     */
    public R visit(ArrayAllocationExpression n);
 
    /**
-    * f0 -> "new"
-    * f1 -> Identifier()
-    * f2 -> "("
-    * f3 -> ")"
+    * nodeToken -> "new"
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeToken2 -> ")"
     */
    public R visit(AllocationExpression n);
 
    /**
-    * f0 -> "!"
-    * f1 -> Expression()
+    * nodeToken -> "!"
+    * expression -> Expression()
     */
    public R visit(NotExpression n);
 
    /**
-    * f0 -> "("
-    * f1 -> Expression()
-    * f2 -> ")"
+    * nodeToken -> "("
+    * expression -> Expression()
+    * nodeToken1 -> ")"
     */
    public R visit(BracketExpression n);
 

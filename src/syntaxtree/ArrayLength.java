@@ -6,25 +6,25 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> PrimaryExpression()
- * f1 -> "."
- * f2 -> "length"
+ * primaryExpression -> PrimaryExpression()
+ * nodeToken -> "."
+ * nodeToken1 -> "length"
  */
 public class ArrayLength implements Node {
-   public PrimaryExpression f0;
-   public NodeToken f1;
-   public NodeToken f2;
+   public PrimaryExpression primaryExpression;
+   public NodeToken nodeToken;
+   public NodeToken nodeToken1;
 
    public ArrayLength(PrimaryExpression n0, NodeToken n1, NodeToken n2) {
-      f0 = n0;
-      f1 = n1;
-      f2 = n2;
+      primaryExpression = n0;
+      nodeToken = n1;
+      nodeToken1 = n2;
    }
 
    public ArrayLength(PrimaryExpression n0) {
-      f0 = n0;
-      f1 = new NodeToken(".");
-      f2 = new NodeToken("length");
+      primaryExpression = n0;
+      nodeToken = new NodeToken(".");
+      nodeToken1 = new NodeToken("length");
    }
 
    public void accept(visitor.Visitor v) {

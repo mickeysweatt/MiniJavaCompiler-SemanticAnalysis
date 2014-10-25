@@ -6,25 +6,25 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> Type()
- * f1 -> Identifier()
- * f2 -> ";"
+ * type -> Type()
+ * identifier -> Identifier()
+ * nodeToken -> ";"
  */
 public class VarDeclaration implements Node {
-   public Type f0;
-   public Identifier f1;
-   public NodeToken f2;
+   public Type type;
+   public Identifier identifier;
+   public NodeToken nodeToken;
 
    public VarDeclaration(Type n0, Identifier n1, NodeToken n2) {
-      f0 = n0;
-      f1 = n1;
-      f2 = n2;
+      type = n0;
+      identifier = n1;
+      nodeToken = n2;
    }
 
    public VarDeclaration(Type n0, Identifier n1) {
-      f0 = n0;
-      f1 = n1;
-      f2 = new NodeToken(";");
+      type = n0;
+      identifier = n1;
+      nodeToken = new NodeToken(";");
    }
 
    public void accept(visitor.Visitor v) {

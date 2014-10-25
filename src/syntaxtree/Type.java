@@ -6,16 +6,16 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> ArrayType()
+ * nodeChoice -> ArrayType()
  *       | BooleanType()
  *       | IntegerType()
  *       | Identifier()
  */
 public class Type implements Node {
-   public NodeChoice f0;
+   public NodeChoice nodeChoice;
 
    public Type(NodeChoice n0) {
-      f0 = n0;
+      nodeChoice = n0;
    }
 
    public void accept(visitor.Visitor v) {

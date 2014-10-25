@@ -6,16 +6,16 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> Expression()
- * f1 -> ( ExpressionRest() )*
+ * expression -> Expression()
+ * nodeListOptional -> ( ExpressionRest() )*
  */
 public class ExpressionList implements Node {
-   public Expression f0;
-   public NodeListOptional f1;
+   public Expression expression;
+   public NodeListOptional nodeListOptional;
 
    public ExpressionList(Expression n0, NodeListOptional n1) {
-      f0 = n0;
-      f1 = n1;
+      expression = n0;
+      nodeListOptional = n1;
    }
 
    public void accept(visitor.Visitor v) {

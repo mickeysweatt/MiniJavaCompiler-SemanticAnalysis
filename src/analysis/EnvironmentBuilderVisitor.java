@@ -31,14 +31,14 @@ class EnvironmentBuilderUtil {
     public static boolean addMethodToClass(MethodDeclaration m, ClassType t, Environment env)
     {
         String method_name = EnvironmentUtil.methodname(m);
-        environment.Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.f1.f0.choice, env);
+        environment.Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.type.nodeChoice.choice, env);
         if (t.containsMethod(method_name)) {
             TypeError.close("Redefining method " + method_name + " in class " + t.getClassName());
             return false;
         }
         else {
             MethodType method = new MethodType(method_name, returnType, null);
-            getParameterListForMethod(m.f4.node, method, env);
+            getParameterListForMethod(m.identifier.nodeToken, method, env);
             t.addMethod(method);
         }
         return true;
@@ -52,14 +52,14 @@ class EnvironmentBuilderUtil {
        }
        else if (parameter instanceof  FormalParameterRest)
        {
-           getParameterListForMethod(((FormalParameterRest)parameter).f1, m, env);
+           getParameterListForMethod(((FormalParameterRest)parameter).formalParameter, m, env);
        }
 
        else if (parameter instanceof FormalParameter)
        {
            FormalParameter fp = (FormalParameter) parameter;
-           environment.Type parameterType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(fp.f0.f0.choice, env);
-           String parameterName = fp.f1.f0.toString();
+           environment.Type parameterType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(fp.type.nodeChoice.choice, env);
+           String parameterName = fp.identifier.nodeToken.toString();
            VarType parameter_type = new VarType(parameterType, parameterName);
             if (m.containsParameter(parameter_type))
             {
@@ -72,8 +72,8 @@ class EnvironmentBuilderUtil {
        else if (parameter instanceof FormalParameterList)
        {
            FormalParameterList pl = (FormalParameterList) parameter;
-           getParameterListForMethod(pl.f0, m, env);
-           for (Node n : pl.f1.nodes)
+           getParameterListForMethod(pl.formalParameter, m, env);
+           for (Node n : pl.nodeListOptional.nodes)
            {
                getParameterListForMethod(n, m, env);
            }
@@ -99,7 +99,7 @@ public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, Environment
         Integer rval = 0;
         String class_name = EnvironmentUtil.classname(d);
         ClassType curr_class = env.getClass(class_name);
-        EnvironmentBuilderUtil.addInstanceVariablesToClass(d.f3, curr_class, env);
+        EnvironmentBuilderUtil.addInstanceVariablesToClass(d.nodeListOptional, curr_class, env);
         env.addClass(curr_class);
         m_currentClass = curr_class;
         super.visit(d, env);

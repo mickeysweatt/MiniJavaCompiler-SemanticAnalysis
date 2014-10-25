@@ -12,13 +12,13 @@ public class EnvironmentUtil {
     public static String classname(Node n)
     {
         if (n instanceof MainClass) {
-            return ((MainClass) n).f1.f0.toString();
+            return ((MainClass) n).identifier.nodeToken.toString();
         }
         else if (n instanceof ClassDeclaration) {
-            return ((ClassDeclaration) n).f1.f0.toString();
+            return ((ClassDeclaration) n).identifier.nodeToken.toString();
         }
         else if (n instanceof ClassExtendsDeclaration) {
-            return ((ClassExtendsDeclaration) n).f1.f0.toString();
+            return ((ClassExtendsDeclaration) n).identifier.nodeToken.toString();
         }
         else {
             System.out.println("classname method called with incorrect parameter!");
@@ -29,13 +29,13 @@ public class EnvironmentUtil {
 
     public static String methodname(MethodDeclaration m)
     {
-        return m.f2.f0.toString();
+        return m.identifier.nodeToken.toString();
     }
 
     public static VarType vardecl(VarDeclaration v, Environment env)
     {
-        Type c    = SyntaxTreeTypeToEnvironmentType(v.f0.f0.choice, env);
-        String varName = v.f1.f0.toString();
+        Type c    = SyntaxTreeTypeToEnvironmentType(v.type.nodeChoice.choice, env);
+        String varName = v.identifier.nodeToken.toString();
         return new VarType(c, varName);
     }
 
@@ -51,7 +51,7 @@ public class EnvironmentUtil {
         }
         else if (syntaxTreeType instanceof Identifier)
         {
-            String class_name = ((Identifier)syntaxTreeType).f0.toString();
+            String class_name = ((Identifier)syntaxTreeType).nodeToken.toString();
             ClassType t = env.getClass(class_name);
             if (null == t)
             {

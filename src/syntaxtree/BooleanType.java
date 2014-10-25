@@ -6,17 +6,17 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> "boolean"
+ * nodeToken -> "boolean"
  */
 public class BooleanType implements Node {
-   public NodeToken f0;
+   public NodeToken nodeToken;
 
    public BooleanType(NodeToken n0) {
-      f0 = n0;
+      nodeToken = n0;
    }
 
    public BooleanType() {
-      f0 = new NodeToken("boolean");
+      nodeToken = new NodeToken("boolean");
    }
 
    public void accept(visitor.Visitor v) {

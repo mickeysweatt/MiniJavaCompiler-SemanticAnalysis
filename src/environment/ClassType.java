@@ -60,7 +60,7 @@ public class ClassType implements Type {
         boolean rval = false;
         if (null != m_instanceVars) {
             for (VarType vt : m_instanceVars) {
-                if (v.variableName() == v.variableName()) {
+                if (v.variableName() == vt.variableName()) {
                     rval = true;
                     break;
                 }

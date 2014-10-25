@@ -6,41 +6,41 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> Identifier()
- * f1 -> "["
- * f2 -> Expression()
- * f3 -> "]"
- * f4 -> "="
- * f5 -> Expression()
- * f6 -> ";"
+ * identifier -> Identifier()
+ * nodeToken -> "["
+ * expression -> Expression()
+ * nodeToken1 -> "]"
+ * nodeToken2 -> "="
+ * expression1 -> Expression()
+ * nodeToken3 -> ";"
  */
 public class ArrayAssignmentStatement implements Node {
-   public Identifier f0;
-   public NodeToken f1;
-   public Expression f2;
-   public NodeToken f3;
-   public NodeToken f4;
-   public Expression f5;
-   public NodeToken f6;
+   public Identifier identifier;
+   public NodeToken nodeToken;
+   public Expression expression;
+   public NodeToken nodeToken1;
+   public NodeToken nodeToken2;
+   public Expression expression1;
+   public NodeToken nodeToken3;
 
    public ArrayAssignmentStatement(Identifier n0, NodeToken n1, Expression n2, NodeToken n3, NodeToken n4, Expression n5, NodeToken n6) {
-      f0 = n0;
-      f1 = n1;
-      f2 = n2;
-      f3 = n3;
-      f4 = n4;
-      f5 = n5;
-      f6 = n6;
+      identifier = n0;
+      nodeToken = n1;
+      expression = n2;
+      nodeToken1 = n3;
+      nodeToken2 = n4;
+      expression1 = n5;
+      nodeToken3 = n6;
    }
 
    public ArrayAssignmentStatement(Identifier n0, Expression n1, Expression n2) {
-      f0 = n0;
-      f1 = new NodeToken("[");
-      f2 = n1;
-      f3 = new NodeToken("]");
-      f4 = new NodeToken("=");
-      f5 = n2;
-      f6 = new NodeToken(";");
+      identifier = n0;
+      nodeToken = new NodeToken("[");
+      expression = n1;
+      nodeToken1 = new NodeToken("]");
+      nodeToken2 = new NodeToken("=");
+      expression1 = n2;
+      nodeToken3 = new NodeToken(";");
    }
 
    public void accept(visitor.Visitor v) {

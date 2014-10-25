@@ -52,209 +52,209 @@ public class GJVoidDepthFirst<A> implements GJVoidVisitor<A> {
    //
 
    /**
-    * f0 -> MainClass()
-    * f1 -> ( TypeDeclaration() )*
-    * f2 -> <EOF>
+    * mainClass -> MainClass()
+    * nodeListOptional -> ( TypeDeclaration() )*
+    * nodeToken -> <EOF>
     */
    public void visit(Goal n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.mainClass.accept(this, argu);
+      n.nodeListOptional.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "{"
-    * f3 -> "public"
-    * f4 -> "static"
-    * f5 -> "void"
-    * f6 -> "main"
-    * f7 -> "("
-    * f8 -> "String"
-    * f9 -> "["
-    * f10 -> "]"
-    * f11 -> Identifier()
-    * f12 -> ")"
-    * f13 -> "{"
-    * f14 -> ( VarDeclaration() )*
-    * f15 -> ( Statement() )*
-    * f16 -> "}"
-    * f17 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "{"
+    * nodeToken2 -> "public"
+    * nodeToken3 -> "static"
+    * nodeToken4 -> "void"
+    * nodeToken5 -> "main"
+    * nodeToken6 -> "("
+    * nodeToken7 -> "String"
+    * nodeToken8 -> "["
+    * nodeToken9 -> "]"
+    * identifier1 -> Identifier()
+    * nodeToken10 -> ")"
+    * nodeToken11 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( Statement() )*
+    * nodeToken12 -> "}"
+    * nodeToken13 -> "}"
     */
    public void visit(MainClass n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      n.f7.accept(this, argu);
-      n.f8.accept(this, argu);
-      n.f9.accept(this, argu);
-      n.f10.accept(this, argu);
-      n.f11.accept(this, argu);
-      n.f12.accept(this, argu);
-      n.f13.accept(this, argu);
-      n.f14.accept(this, argu);
-      n.f15.accept(this, argu);
-      n.f16.accept(this, argu);
-      n.f17.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
+      n.nodeToken3.accept(this, argu);
+      n.nodeToken4.accept(this, argu);
+      n.nodeToken5.accept(this, argu);
+      n.nodeToken6.accept(this, argu);
+      n.nodeToken7.accept(this, argu);
+      n.nodeToken8.accept(this, argu);
+      n.nodeToken9.accept(this, argu);
+      n.identifier1.accept(this, argu);
+      n.nodeToken10.accept(this, argu);
+      n.nodeToken11.accept(this, argu);
+      n.nodeListOptional.accept(this, argu);
+      n.nodeListOptional1.accept(this, argu);
+      n.nodeToken12.accept(this, argu);
+      n.nodeToken13.accept(this, argu);
    }
 
    /**
-    * f0 -> ClassDeclaration()
+    * nodeChoice -> ClassDeclaration()
     *       | ClassExtendsDeclaration()
     */
    public void visit(TypeDeclaration n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeChoice.accept(this, argu);
    }
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "{"
-    * f3 -> ( VarDeclaration() )*
-    * f4 -> ( MethodDeclaration() )*
-    * f5 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( MethodDeclaration() )*
+    * nodeToken2 -> "}"
     */
    public void visit(ClassDeclaration n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.nodeListOptional.accept(this, argu);
+      n.nodeListOptional1.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
    }
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "extends"
-    * f3 -> Identifier()
-    * f4 -> "{"
-    * f5 -> ( VarDeclaration() )*
-    * f6 -> ( MethodDeclaration() )*
-    * f7 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "extends"
+    * identifier1 -> Identifier()
+    * nodeToken2 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( MethodDeclaration() )*
+    * nodeToken3 -> "}"
     */
    public void visit(ClassExtendsDeclaration n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      n.f7.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.identifier1.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
+      n.nodeListOptional.accept(this, argu);
+      n.nodeListOptional1.accept(this, argu);
+      n.nodeToken3.accept(this, argu);
    }
 
    /**
-    * f0 -> Type()
-    * f1 -> Identifier()
-    * f2 -> ";"
+    * type -> Type()
+    * identifier -> Identifier()
+    * nodeToken -> ";"
     */
    public void visit(VarDeclaration n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.type.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> "public"
-    * f1 -> Type()
-    * f2 -> Identifier()
-    * f3 -> "("
-    * f4 -> ( FormalParameterList() )?
-    * f5 -> ")"
-    * f6 -> "{"
-    * f7 -> ( VarDeclaration() )*
-    * f8 -> ( Statement() )*
-    * f9 -> "return"
-    * f10 -> Expression()
-    * f11 -> ";"
-    * f12 -> "}"
+    * nodeToken -> "public"
+    * type -> Type()
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeOptional -> ( FormalParameterList() )?
+    * nodeToken2 -> ")"
+    * nodeToken3 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( Statement() )*
+    * nodeToken4 -> "return"
+    * expression -> Expression()
+    * nodeToken5 -> ";"
+    * nodeToken6 -> "}"
     */
    public void visit(MethodDeclaration n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      n.f7.accept(this, argu);
-      n.f8.accept(this, argu);
-      n.f9.accept(this, argu);
-      n.f10.accept(this, argu);
-      n.f11.accept(this, argu);
-      n.f12.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.type.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.nodeOptional.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
+      n.nodeToken3.accept(this, argu);
+      n.nodeListOptional.accept(this, argu);
+      n.nodeListOptional1.accept(this, argu);
+      n.nodeToken4.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeToken5.accept(this, argu);
+      n.nodeToken6.accept(this, argu);
    }
 
    /**
-    * f0 -> FormalParameter()
-    * f1 -> ( FormalParameterRest() )*
+    * formalParameter -> FormalParameter()
+    * nodeListOptional -> ( FormalParameterRest() )*
     */
    public void visit(FormalParameterList n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
+      n.formalParameter.accept(this, argu);
+      n.nodeListOptional.accept(this, argu);
    }
 
    /**
-    * f0 -> Type()
-    * f1 -> Identifier()
+    * type -> Type()
+    * identifier -> Identifier()
     */
    public void visit(FormalParameter n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
+      n.type.accept(this, argu);
+      n.identifier.accept(this, argu);
    }
 
    /**
-    * f0 -> ","
-    * f1 -> FormalParameter()
+    * nodeToken -> ","
+    * formalParameter -> FormalParameter()
     */
    public void visit(FormalParameterRest n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.formalParameter.accept(this, argu);
    }
 
    /**
-    * f0 -> ArrayType()
+    * nodeChoice -> ArrayType()
     *       | BooleanType()
     *       | IntegerType()
     *       | Identifier()
     */
    public void visit(Type n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeChoice.accept(this, argu);
    }
 
    /**
-    * f0 -> "int"
-    * f1 -> "["
-    * f2 -> "]"
+    * nodeToken -> "int"
+    * nodeToken1 -> "["
+    * nodeToken2 -> "]"
     */
    public void visit(ArrayType n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
    }
 
    /**
-    * f0 -> "boolean"
+    * nodeToken -> "boolean"
     */
    public void visit(BooleanType n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> "int"
+    * nodeToken -> "int"
     */
    public void visit(IntegerType n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> Block()
+    * nodeChoice -> Block()
     *       | AssignmentStatement()
     *       | ArrayAssignmentStatement()
     *       | IfStatement()
@@ -262,103 +262,103 @@ public class GJVoidDepthFirst<A> implements GJVoidVisitor<A> {
     *       | PrintStatement()
     */
    public void visit(Statement n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeChoice.accept(this, argu);
    }
 
    /**
-    * f0 -> "{"
-    * f1 -> ( Statement() )*
-    * f2 -> "}"
+    * nodeToken -> "{"
+    * nodeListOptional -> ( Statement() )*
+    * nodeToken1 -> "}"
     */
    public void visit(Block n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.nodeListOptional.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
    }
 
    /**
-    * f0 -> Identifier()
-    * f1 -> "="
-    * f2 -> Expression()
-    * f3 -> ";"
+    * identifier -> Identifier()
+    * nodeToken -> "="
+    * expression -> Expression()
+    * nodeToken1 -> ";"
     */
    public void visit(AssignmentStatement n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
    }
 
    /**
-    * f0 -> Identifier()
-    * f1 -> "["
-    * f2 -> Expression()
-    * f3 -> "]"
-    * f4 -> "="
-    * f5 -> Expression()
-    * f6 -> ";"
+    * identifier -> Identifier()
+    * nodeToken -> "["
+    * expression -> Expression()
+    * nodeToken1 -> "]"
+    * nodeToken2 -> "="
+    * expression1 -> Expression()
+    * nodeToken3 -> ";"
     */
    public void visit(ArrayAssignmentStatement n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
+      n.expression1.accept(this, argu);
+      n.nodeToken3.accept(this, argu);
    }
 
    /**
-    * f0 -> "if"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> Statement()
-    * f5 -> "else"
-    * f6 -> Statement()
+    * nodeToken -> "if"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * statement -> Statement()
+    * nodeToken3 -> "else"
+    * statement1 -> Statement()
     */
    public void visit(IfStatement n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
+      n.statement.accept(this, argu);
+      n.nodeToken3.accept(this, argu);
+      n.statement1.accept(this, argu);
    }
 
    /**
-    * f0 -> "while"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> Statement()
+    * nodeToken -> "while"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * statement -> Statement()
     */
    public void visit(WhileStatement n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
+      n.statement.accept(this, argu);
    }
 
    /**
-    * f0 -> "System.out.println"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> ";"
+    * nodeToken -> "System.out.println"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * nodeToken3 -> ";"
     */
    public void visit(PrintStatement n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
+      n.nodeToken3.accept(this, argu);
    }
 
    /**
-    * f0 -> AndExpression()
+    * nodeChoice -> AndExpression()
     *       | CompareExpression()
     *       | PlusExpression()
     *       | MinusExpression()
@@ -369,125 +369,125 @@ public class GJVoidDepthFirst<A> implements GJVoidVisitor<A> {
     *       | PrimaryExpression()
     */
    public void visit(Expression n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeChoice.accept(this, argu);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "&&"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "&&"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(AndExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.primaryExpression.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.primaryExpression1.accept(this, argu);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "<"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "<"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(CompareExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.primaryExpression.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.primaryExpression1.accept(this, argu);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "+"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "+"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(PlusExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.primaryExpression.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.primaryExpression1.accept(this, argu);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "-"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "-"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(MinusExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.primaryExpression.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.primaryExpression1.accept(this, argu);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "*"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "*"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(TimesExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.primaryExpression.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.primaryExpression1.accept(this, argu);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "["
-    * f2 -> PrimaryExpression()
-    * f3 -> "]"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "["
+    * primaryExpression1 -> PrimaryExpression()
+    * nodeToken1 -> "]"
     */
    public void visit(ArrayLookup n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
+      n.primaryExpression.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.primaryExpression1.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "."
-    * f2 -> "length"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "."
+    * nodeToken1 -> "length"
     */
    public void visit(ArrayLength n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.primaryExpression.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "."
-    * f2 -> Identifier()
-    * f3 -> "("
-    * f4 -> ( ExpressionList() )?
-    * f5 -> ")"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "."
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeOptional -> ( ExpressionList() )?
+    * nodeToken2 -> ")"
     */
    public void visit(MessageSend n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
+      n.primaryExpression.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.nodeOptional.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
    }
 
    /**
-    * f0 -> Expression()
-    * f1 -> ( ExpressionRest() )*
+    * expression -> Expression()
+    * nodeListOptional -> ( ExpressionRest() )*
     */
    public void visit(ExpressionList n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeListOptional.accept(this, argu);
    }
 
    /**
-    * f0 -> ","
-    * f1 -> Expression()
+    * nodeToken -> ","
+    * expression -> Expression()
     */
    public void visit(ExpressionRest n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.expression.accept(this, argu);
    }
 
    /**
-    * f0 -> IntegerLiteral()
+    * nodeChoice -> IntegerLiteral()
     *       | TrueLiteral()
     *       | FalseLiteral()
     *       | Identifier()
@@ -498,90 +498,90 @@ public class GJVoidDepthFirst<A> implements GJVoidVisitor<A> {
     *       | BracketExpression()
     */
    public void visit(PrimaryExpression n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeChoice.accept(this, argu);
    }
 
    /**
-    * f0 -> <INTEGER_LITERAL>
+    * nodeToken -> <INTEGER_LITERAL>
     */
    public void visit(IntegerLiteral n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> "true"
+    * nodeToken -> "true"
     */
    public void visit(TrueLiteral n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> "false"
+    * nodeToken -> "false"
     */
    public void visit(FalseLiteral n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> <IDENTIFIER>
+    * nodeToken -> <IDENTIFIER>
     */
    public void visit(Identifier n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> "this"
+    * nodeToken -> "this"
     */
    public void visit(ThisExpression n, A argu) {
-      n.f0.accept(this, argu);
+      n.nodeToken.accept(this, argu);
    }
 
    /**
-    * f0 -> "new"
-    * f1 -> "int"
-    * f2 -> "["
-    * f3 -> Expression()
-    * f4 -> "]"
+    * nodeToken -> "new"
+    * nodeToken1 -> "int"
+    * nodeToken2 -> "["
+    * expression -> Expression()
+    * nodeToken3 -> "]"
     */
    public void visit(ArrayAllocationExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeToken3.accept(this, argu);
    }
 
    /**
-    * f0 -> "new"
-    * f1 -> Identifier()
-    * f2 -> "("
-    * f3 -> ")"
+    * nodeToken -> "new"
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeToken2 -> ")"
     */
    public void visit(AllocationExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.identifier.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
+      n.nodeToken2.accept(this, argu);
    }
 
    /**
-    * f0 -> "!"
-    * f1 -> Expression()
+    * nodeToken -> "!"
+    * expression -> Expression()
     */
    public void visit(NotExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.expression.accept(this, argu);
    }
 
    /**
-    * f0 -> "("
-    * f1 -> Expression()
-    * f2 -> ")"
+    * nodeToken -> "("
+    * expression -> Expression()
+    * nodeToken1 -> ")"
     */
    public void visit(BracketExpression n, A argu) {
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
+      n.nodeToken.accept(this, argu);
+      n.expression.accept(this, argu);
+      n.nodeToken1.accept(this, argu);
    }
 
 }

@@ -42,209 +42,209 @@ public class DepthFirstVisitor implements Visitor {
    //
 
    /**
-    * f0 -> MainClass()
-    * f1 -> ( TypeDeclaration() )*
-    * f2 -> <EOF>
+    * mainClass -> MainClass()
+    * nodeListOptional -> ( TypeDeclaration() )*
+    * nodeToken -> <EOF>
     */
    public void visit(Goal n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.mainClass.accept(this);
+      n.nodeListOptional.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "{"
-    * f3 -> "public"
-    * f4 -> "static"
-    * f5 -> "void"
-    * f6 -> "main"
-    * f7 -> "("
-    * f8 -> "String"
-    * f9 -> "["
-    * f10 -> "]"
-    * f11 -> Identifier()
-    * f12 -> ")"
-    * f13 -> "{"
-    * f14 -> ( VarDeclaration() )*
-    * f15 -> ( Statement() )*
-    * f16 -> "}"
-    * f17 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "{"
+    * nodeToken2 -> "public"
+    * nodeToken3 -> "static"
+    * nodeToken4 -> "void"
+    * nodeToken5 -> "main"
+    * nodeToken6 -> "("
+    * nodeToken7 -> "String"
+    * nodeToken8 -> "["
+    * nodeToken9 -> "]"
+    * identifier1 -> Identifier()
+    * nodeToken10 -> ")"
+    * nodeToken11 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( Statement() )*
+    * nodeToken12 -> "}"
+    * nodeToken13 -> "}"
     */
    public void visit(MainClass n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
-      n.f5.accept(this);
-      n.f6.accept(this);
-      n.f7.accept(this);
-      n.f8.accept(this);
-      n.f9.accept(this);
-      n.f10.accept(this);
-      n.f11.accept(this);
-      n.f12.accept(this);
-      n.f13.accept(this);
-      n.f14.accept(this);
-      n.f15.accept(this);
-      n.f16.accept(this);
-      n.f17.accept(this);
+      n.nodeToken.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken1.accept(this);
+      n.nodeToken2.accept(this);
+      n.nodeToken3.accept(this);
+      n.nodeToken4.accept(this);
+      n.nodeToken5.accept(this);
+      n.nodeToken6.accept(this);
+      n.nodeToken7.accept(this);
+      n.nodeToken8.accept(this);
+      n.nodeToken9.accept(this);
+      n.identifier1.accept(this);
+      n.nodeToken10.accept(this);
+      n.nodeToken11.accept(this);
+      n.nodeListOptional.accept(this);
+      n.nodeListOptional1.accept(this);
+      n.nodeToken12.accept(this);
+      n.nodeToken13.accept(this);
    }
 
    /**
-    * f0 -> ClassDeclaration()
+    * nodeChoice -> ClassDeclaration()
     *       | ClassExtendsDeclaration()
     */
    public void visit(TypeDeclaration n) {
-      n.f0.accept(this);
+      n.nodeChoice.accept(this);
    }
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "{"
-    * f3 -> ( VarDeclaration() )*
-    * f4 -> ( MethodDeclaration() )*
-    * f5 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( MethodDeclaration() )*
+    * nodeToken2 -> "}"
     */
    public void visit(ClassDeclaration n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
-      n.f5.accept(this);
+      n.nodeToken.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken1.accept(this);
+      n.nodeListOptional.accept(this);
+      n.nodeListOptional1.accept(this);
+      n.nodeToken2.accept(this);
    }
 
    /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "extends"
-    * f3 -> Identifier()
-    * f4 -> "{"
-    * f5 -> ( VarDeclaration() )*
-    * f6 -> ( MethodDeclaration() )*
-    * f7 -> "}"
+    * nodeToken -> "class"
+    * identifier -> Identifier()
+    * nodeToken1 -> "extends"
+    * identifier1 -> Identifier()
+    * nodeToken2 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( MethodDeclaration() )*
+    * nodeToken3 -> "}"
     */
    public void visit(ClassExtendsDeclaration n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
-      n.f5.accept(this);
-      n.f6.accept(this);
-      n.f7.accept(this);
+      n.nodeToken.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken1.accept(this);
+      n.identifier1.accept(this);
+      n.nodeToken2.accept(this);
+      n.nodeListOptional.accept(this);
+      n.nodeListOptional1.accept(this);
+      n.nodeToken3.accept(this);
    }
 
    /**
-    * f0 -> Type()
-    * f1 -> Identifier()
-    * f2 -> ";"
+    * type -> Type()
+    * identifier -> Identifier()
+    * nodeToken -> ";"
     */
    public void visit(VarDeclaration n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.type.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> "public"
-    * f1 -> Type()
-    * f2 -> Identifier()
-    * f3 -> "("
-    * f4 -> ( FormalParameterList() )?
-    * f5 -> ")"
-    * f6 -> "{"
-    * f7 -> ( VarDeclaration() )*
-    * f8 -> ( Statement() )*
-    * f9 -> "return"
-    * f10 -> Expression()
-    * f11 -> ";"
-    * f12 -> "}"
+    * nodeToken -> "public"
+    * type -> Type()
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeOptional -> ( FormalParameterList() )?
+    * nodeToken2 -> ")"
+    * nodeToken3 -> "{"
+    * nodeListOptional -> ( VarDeclaration() )*
+    * nodeListOptional1 -> ( Statement() )*
+    * nodeToken4 -> "return"
+    * expression -> Expression()
+    * nodeToken5 -> ";"
+    * nodeToken6 -> "}"
     */
    public void visit(MethodDeclaration n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
-      n.f5.accept(this);
-      n.f6.accept(this);
-      n.f7.accept(this);
-      n.f8.accept(this);
-      n.f9.accept(this);
-      n.f10.accept(this);
-      n.f11.accept(this);
-      n.f12.accept(this);
+      n.nodeToken.accept(this);
+      n.type.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken1.accept(this);
+      n.nodeOptional.accept(this);
+      n.nodeToken2.accept(this);
+      n.nodeToken3.accept(this);
+      n.nodeListOptional.accept(this);
+      n.nodeListOptional1.accept(this);
+      n.nodeToken4.accept(this);
+      n.expression.accept(this);
+      n.nodeToken5.accept(this);
+      n.nodeToken6.accept(this);
    }
 
    /**
-    * f0 -> FormalParameter()
-    * f1 -> ( FormalParameterRest() )*
+    * formalParameter -> FormalParameter()
+    * nodeListOptional -> ( FormalParameterRest() )*
     */
    public void visit(FormalParameterList n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
+      n.formalParameter.accept(this);
+      n.nodeListOptional.accept(this);
    }
 
    /**
-    * f0 -> Type()
-    * f1 -> Identifier()
+    * type -> Type()
+    * identifier -> Identifier()
     */
    public void visit(FormalParameter n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
+      n.type.accept(this);
+      n.identifier.accept(this);
    }
 
    /**
-    * f0 -> ","
-    * f1 -> FormalParameter()
+    * nodeToken -> ","
+    * formalParameter -> FormalParameter()
     */
    public void visit(FormalParameterRest n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
+      n.nodeToken.accept(this);
+      n.formalParameter.accept(this);
    }
 
    /**
-    * f0 -> ArrayType()
+    * nodeChoice -> ArrayType()
     *       | BooleanType()
     *       | IntegerType()
     *       | Identifier()
     */
    public void visit(Type n) {
-      n.f0.accept(this);
+      n.nodeChoice.accept(this);
    }
 
    /**
-    * f0 -> "int"
-    * f1 -> "["
-    * f2 -> "]"
+    * nodeToken -> "int"
+    * nodeToken1 -> "["
+    * nodeToken2 -> "]"
     */
    public void visit(ArrayType n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.nodeToken.accept(this);
+      n.nodeToken1.accept(this);
+      n.nodeToken2.accept(this);
    }
 
    /**
-    * f0 -> "boolean"
+    * nodeToken -> "boolean"
     */
    public void visit(BooleanType n) {
-      n.f0.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> "int"
+    * nodeToken -> "int"
     */
    public void visit(IntegerType n) {
-      n.f0.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> Block()
+    * nodeChoice -> Block()
     *       | AssignmentStatement()
     *       | ArrayAssignmentStatement()
     *       | IfStatement()
@@ -252,103 +252,103 @@ public class DepthFirstVisitor implements Visitor {
     *       | PrintStatement()
     */
    public void visit(Statement n) {
-      n.f0.accept(this);
+      n.nodeChoice.accept(this);
    }
 
    /**
-    * f0 -> "{"
-    * f1 -> ( Statement() )*
-    * f2 -> "}"
+    * nodeToken -> "{"
+    * nodeListOptional -> ( Statement() )*
+    * nodeToken1 -> "}"
     */
    public void visit(Block n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.nodeToken.accept(this);
+      n.nodeListOptional.accept(this);
+      n.nodeToken1.accept(this);
    }
 
    /**
-    * f0 -> Identifier()
-    * f1 -> "="
-    * f2 -> Expression()
-    * f3 -> ";"
+    * identifier -> Identifier()
+    * nodeToken -> "="
+    * expression -> Expression()
+    * nodeToken1 -> ";"
     */
    public void visit(AssignmentStatement n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken.accept(this);
+      n.expression.accept(this);
+      n.nodeToken1.accept(this);
    }
 
    /**
-    * f0 -> Identifier()
-    * f1 -> "["
-    * f2 -> Expression()
-    * f3 -> "]"
-    * f4 -> "="
-    * f5 -> Expression()
-    * f6 -> ";"
+    * identifier -> Identifier()
+    * nodeToken -> "["
+    * expression -> Expression()
+    * nodeToken1 -> "]"
+    * nodeToken2 -> "="
+    * expression1 -> Expression()
+    * nodeToken3 -> ";"
     */
    public void visit(ArrayAssignmentStatement n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
-      n.f5.accept(this);
-      n.f6.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken.accept(this);
+      n.expression.accept(this);
+      n.nodeToken1.accept(this);
+      n.nodeToken2.accept(this);
+      n.expression1.accept(this);
+      n.nodeToken3.accept(this);
    }
 
    /**
-    * f0 -> "if"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> Statement()
-    * f5 -> "else"
-    * f6 -> Statement()
+    * nodeToken -> "if"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * statement -> Statement()
+    * nodeToken3 -> "else"
+    * statement1 -> Statement()
     */
    public void visit(IfStatement n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
-      n.f5.accept(this);
-      n.f6.accept(this);
+      n.nodeToken.accept(this);
+      n.nodeToken1.accept(this);
+      n.expression.accept(this);
+      n.nodeToken2.accept(this);
+      n.statement.accept(this);
+      n.nodeToken3.accept(this);
+      n.statement1.accept(this);
    }
 
    /**
-    * f0 -> "while"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> Statement()
+    * nodeToken -> "while"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * statement -> Statement()
     */
    public void visit(WhileStatement n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
+      n.nodeToken.accept(this);
+      n.nodeToken1.accept(this);
+      n.expression.accept(this);
+      n.nodeToken2.accept(this);
+      n.statement.accept(this);
    }
 
    /**
-    * f0 -> "System.out.println"
-    * f1 -> "("
-    * f2 -> Expression()
-    * f3 -> ")"
-    * f4 -> ";"
+    * nodeToken -> "System.out.println"
+    * nodeToken1 -> "("
+    * expression -> Expression()
+    * nodeToken2 -> ")"
+    * nodeToken3 -> ";"
     */
    public void visit(PrintStatement n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
+      n.nodeToken.accept(this);
+      n.nodeToken1.accept(this);
+      n.expression.accept(this);
+      n.nodeToken2.accept(this);
+      n.nodeToken3.accept(this);
    }
 
    /**
-    * f0 -> AndExpression()
+    * nodeChoice -> AndExpression()
     *       | CompareExpression()
     *       | PlusExpression()
     *       | MinusExpression()
@@ -359,125 +359,125 @@ public class DepthFirstVisitor implements Visitor {
     *       | PrimaryExpression()
     */
    public void visit(Expression n) {
-      n.f0.accept(this);
+      n.nodeChoice.accept(this);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "&&"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "&&"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(AndExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.primaryExpression.accept(this);
+      n.nodeToken.accept(this);
+      n.primaryExpression1.accept(this);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "<"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "<"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(CompareExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.primaryExpression.accept(this);
+      n.nodeToken.accept(this);
+      n.primaryExpression1.accept(this);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "+"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "+"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(PlusExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.primaryExpression.accept(this);
+      n.nodeToken.accept(this);
+      n.primaryExpression1.accept(this);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "-"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "-"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(MinusExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.primaryExpression.accept(this);
+      n.nodeToken.accept(this);
+      n.primaryExpression1.accept(this);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "*"
-    * f2 -> PrimaryExpression()
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "*"
+    * primaryExpression1 -> PrimaryExpression()
     */
    public void visit(TimesExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.primaryExpression.accept(this);
+      n.nodeToken.accept(this);
+      n.primaryExpression1.accept(this);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "["
-    * f2 -> PrimaryExpression()
-    * f3 -> "]"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "["
+    * primaryExpression1 -> PrimaryExpression()
+    * nodeToken1 -> "]"
     */
    public void visit(ArrayLookup n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
+      n.primaryExpression.accept(this);
+      n.nodeToken.accept(this);
+      n.primaryExpression1.accept(this);
+      n.nodeToken1.accept(this);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "."
-    * f2 -> "length"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "."
+    * nodeToken1 -> "length"
     */
    public void visit(ArrayLength n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.primaryExpression.accept(this);
+      n.nodeToken.accept(this);
+      n.nodeToken1.accept(this);
    }
 
    /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "."
-    * f2 -> Identifier()
-    * f3 -> "("
-    * f4 -> ( ExpressionList() )?
-    * f5 -> ")"
+    * primaryExpression -> PrimaryExpression()
+    * nodeToken -> "."
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeOptional -> ( ExpressionList() )?
+    * nodeToken2 -> ")"
     */
    public void visit(MessageSend n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
-      n.f5.accept(this);
+      n.primaryExpression.accept(this);
+      n.nodeToken.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken1.accept(this);
+      n.nodeOptional.accept(this);
+      n.nodeToken2.accept(this);
    }
 
    /**
-    * f0 -> Expression()
-    * f1 -> ( ExpressionRest() )*
+    * expression -> Expression()
+    * nodeListOptional -> ( ExpressionRest() )*
     */
    public void visit(ExpressionList n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
+      n.expression.accept(this);
+      n.nodeListOptional.accept(this);
    }
 
    /**
-    * f0 -> ","
-    * f1 -> Expression()
+    * nodeToken -> ","
+    * expression -> Expression()
     */
    public void visit(ExpressionRest n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
+      n.nodeToken.accept(this);
+      n.expression.accept(this);
    }
 
    /**
-    * f0 -> IntegerLiteral()
+    * nodeChoice -> IntegerLiteral()
     *       | TrueLiteral()
     *       | FalseLiteral()
     *       | Identifier()
@@ -488,90 +488,90 @@ public class DepthFirstVisitor implements Visitor {
     *       | BracketExpression()
     */
    public void visit(PrimaryExpression n) {
-      n.f0.accept(this);
+      n.nodeChoice.accept(this);
    }
 
    /**
-    * f0 -> <INTEGER_LITERAL>
+    * nodeToken -> <INTEGER_LITERAL>
     */
    public void visit(IntegerLiteral n) {
-      n.f0.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> "true"
+    * nodeToken -> "true"
     */
    public void visit(TrueLiteral n) {
-      n.f0.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> "false"
+    * nodeToken -> "false"
     */
    public void visit(FalseLiteral n) {
-      n.f0.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> <IDENTIFIER>
+    * nodeToken -> <IDENTIFIER>
     */
    public void visit(Identifier n) {
-      n.f0.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> "this"
+    * nodeToken -> "this"
     */
    public void visit(ThisExpression n) {
-      n.f0.accept(this);
+      n.nodeToken.accept(this);
    }
 
    /**
-    * f0 -> "new"
-    * f1 -> "int"
-    * f2 -> "["
-    * f3 -> Expression()
-    * f4 -> "]"
+    * nodeToken -> "new"
+    * nodeToken1 -> "int"
+    * nodeToken2 -> "["
+    * expression -> Expression()
+    * nodeToken3 -> "]"
     */
    public void visit(ArrayAllocationExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
-      n.f4.accept(this);
+      n.nodeToken.accept(this);
+      n.nodeToken1.accept(this);
+      n.nodeToken2.accept(this);
+      n.expression.accept(this);
+      n.nodeToken3.accept(this);
    }
 
    /**
-    * f0 -> "new"
-    * f1 -> Identifier()
-    * f2 -> "("
-    * f3 -> ")"
+    * nodeToken -> "new"
+    * identifier -> Identifier()
+    * nodeToken1 -> "("
+    * nodeToken2 -> ")"
     */
    public void visit(AllocationExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
-      n.f3.accept(this);
+      n.nodeToken.accept(this);
+      n.identifier.accept(this);
+      n.nodeToken1.accept(this);
+      n.nodeToken2.accept(this);
    }
 
    /**
-    * f0 -> "!"
-    * f1 -> Expression()
+    * nodeToken -> "!"
+    * expression -> Expression()
     */
    public void visit(NotExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
+      n.nodeToken.accept(this);
+      n.expression.accept(this);
    }
 
    /**
-    * f0 -> "("
-    * f1 -> Expression()
-    * f2 -> ")"
+    * nodeToken -> "("
+    * expression -> Expression()
+    * nodeToken1 -> ")"
     */
    public void visit(BracketExpression n) {
-      n.f0.accept(this);
-      n.f1.accept(this);
-      n.f2.accept(this);
+      n.nodeToken.accept(this);
+      n.expression.accept(this);
+      n.nodeToken1.accept(this);
    }
 
 }

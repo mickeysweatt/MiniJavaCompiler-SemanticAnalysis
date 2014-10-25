@@ -6,13 +6,13 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> <IDENTIFIER>
+ * nodeToken -> <IDENTIFIER>
  */
 public class Identifier implements Node {
-   public NodeToken f0;
+   public NodeToken nodeToken;
 
    public Identifier(NodeToken n0) {
-      f0 = n0;
+      nodeToken = n0;
    }
 
    public void accept(visitor.Visitor v) {

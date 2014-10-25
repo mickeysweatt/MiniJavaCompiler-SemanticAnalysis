@@ -6,7 +6,7 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> AndExpression()
+ * nodeChoice -> AndExpression()
  *       | CompareExpression()
  *       | PlusExpression()
  *       | MinusExpression()
@@ -17,10 +17,10 @@ package syntaxtree;
  *       | PrimaryExpression()
  */
 public class Expression implements Node {
-   public NodeChoice f0;
+   public NodeChoice nodeChoice;
 
    public Expression(NodeChoice n0) {
-      f0 = n0;
+      nodeChoice = n0;
    }
 
    public void accept(visitor.Visitor v) {

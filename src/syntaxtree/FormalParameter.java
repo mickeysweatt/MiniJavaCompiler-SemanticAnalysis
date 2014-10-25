@@ -6,16 +6,16 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> Type()
- * f1 -> Identifier()
+ * type -> Type()
+ * identifier -> Identifier()
  */
 public class FormalParameter implements Node {
-   public Type f0;
-   public Identifier f1;
+   public Type type;
+   public Identifier identifier;
 
    public FormalParameter(Type n0, Identifier n1) {
-      f0 = n0;
-      f1 = n1;
+      type = n0;
+      identifier = n1;
    }
 
    public void accept(visitor.Visitor v) {

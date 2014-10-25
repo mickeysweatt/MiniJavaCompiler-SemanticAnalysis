@@ -6,25 +6,25 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> PrimaryExpression()
- * f1 -> "*"
- * f2 -> PrimaryExpression()
+ * primaryExpression -> PrimaryExpression()
+ * nodeToken -> "*"
+ * primaryExpression1 -> PrimaryExpression()
  */
 public class TimesExpression implements Node {
-   public PrimaryExpression f0;
-   public NodeToken f1;
-   public PrimaryExpression f2;
+   public PrimaryExpression primaryExpression;
+   public NodeToken nodeToken;
+   public PrimaryExpression primaryExpression1;
 
    public TimesExpression(PrimaryExpression n0, NodeToken n1, PrimaryExpression n2) {
-      f0 = n0;
-      f1 = n1;
-      f2 = n2;
+      primaryExpression = n0;
+      nodeToken = n1;
+      primaryExpression1 = n2;
    }
 
    public TimesExpression(PrimaryExpression n0, PrimaryExpression n1) {
-      f0 = n0;
-      f1 = new NodeToken("*");
-      f2 = n1;
+      primaryExpression = n0;
+      nodeToken = new NodeToken("*");
+      primaryExpression1 = n1;
    }
 
    public void accept(visitor.Visitor v) {

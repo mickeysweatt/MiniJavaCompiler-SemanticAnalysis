@@ -6,14 +6,14 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> ClassDeclaration()
+ * nodeChoice -> ClassDeclaration()
  *       | ClassExtendsDeclaration()
  */
 public class TypeDeclaration implements Node {
-   public NodeChoice f0;
+   public NodeChoice nodeChoice;
 
    public TypeDeclaration(NodeChoice n0) {
-      f0 = n0;
+      nodeChoice = n0;
    }
 
    public void accept(visitor.Visitor v) {

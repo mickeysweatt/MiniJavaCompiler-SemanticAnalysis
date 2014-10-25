@@ -6,16 +6,16 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * f0 -> FormalParameter()
- * f1 -> ( FormalParameterRest() )*
+ * formalParameter -> FormalParameter()
+ * nodeListOptional -> ( FormalParameterRest() )*
  */
 public class FormalParameterList implements Node {
-   public FormalParameter f0;
-   public NodeListOptional f1;
+   public FormalParameter formalParameter;
+   public NodeListOptional nodeListOptional;
 
    public FormalParameterList(FormalParameter n0, NodeListOptional n1) {
-      f0 = n0;
-      f1 = n1;
+      formalParameter = n0;
+      nodeListOptional = n1;
    }
 
    public void accept(visitor.Visitor v) {
