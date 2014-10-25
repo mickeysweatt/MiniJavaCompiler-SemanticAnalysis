@@ -17,7 +17,6 @@ public class ClassType implements Type {
         return typeName();
     }
 
-
     public ClassType(String name) {
         m_name = name;
         m_superClasses = null;
@@ -36,7 +35,7 @@ public class ClassType implements Type {
         m_methods.addEntry(m);
     }
 
-    public MethodType getMethod(String method_name) {
+    public MethodType getMethod(String method_name)  {
             return m_methods.getEntry(method_name);
     }
 
@@ -54,5 +53,9 @@ public class ClassType implements Type {
 
     public boolean containsInstanceVar(VarType v) {
         return m_instanceVars.containsEntry(v.variableName());
+    }
+
+    public VarType getInstanceVar(String varName) {
+        return m_instanceVars.getEntry(varName);
     }
 }

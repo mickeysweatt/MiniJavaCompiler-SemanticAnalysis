@@ -9,7 +9,7 @@ import java.util.Map;
 public class Environment<ENTITY_TYPE> {
     private Map<String, ENTITY_TYPE> m_entries;
 
-   public Environment()
+    public Environment()
    {
        m_entries = null;
    }

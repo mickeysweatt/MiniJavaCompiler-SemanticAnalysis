@@ -32,18 +32,18 @@ class EnvironmentBuilderUtil {
         return true;
     }
 
-    public static boolean addMethodToClass(MethodDeclaration m, ClassType t, GlobalEnvironment env)
+    public static boolean addMethodToClass(MethodDeclaration m, ClassType curr_class, GlobalEnvironment env)
     {
         String method_name = EnvironmentUtil.methodname(m);
         Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.type.nodeChoice.choice, env);
-        if (t.containsMethod(method_name)) {
-            close("Redefining method " + method_name + " in class " + t.getClassName());
+        if (curr_class.containsMethod(method_name)) {
+            close("Redefining method " + method_name + " in class " + curr_class.getClassName());
             return false;
         }
         else {
-            MethodType method = new MethodType(method_name, returnType, null);
+            MethodType method = new MethodType(method_name, returnType, curr_class, null);
             getParameterListForMethod(m.identifier.nodeToken, method, env);
-            t.addMethod(method);
+            curr_class.addMethod(method);
         }
         return true;
     }

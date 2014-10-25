@@ -9,6 +9,7 @@ import java.util.Set;
 public class MethodType implements Type {
     private String       m_methodName;
     private Type         m_returnType;
+    private ClassType    m_scope;
     private Set<VarType> m_parameters;
 
     public String typeName()
@@ -16,11 +17,12 @@ public class MethodType implements Type {
         return "method";
     }
 
-    public  MethodType(String name, Type returnType, Set<VarType> parameters)
+    public  MethodType(String name, Type returnType, ClassType scope, Set<VarType> parameters)
     {
         m_methodName = name;
         m_returnType = returnType;
         m_parameters = parameters;
+        m_scope      = scope;
     }
 
     public void addParameter(VarType parameter)
@@ -35,6 +37,11 @@ public class MethodType implements Type {
     public boolean containsParameter(VarType parameter)
     {
         return (null != m_parameters) && (m_parameters.contains(parameter));
+    }
+
+    public ClassType getScope()
+    {
+        return m_scope;
     }
 
     public String getName()

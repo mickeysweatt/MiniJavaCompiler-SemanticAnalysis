@@ -9,6 +9,8 @@ import visitor.GJDepthFirst;
  */
 public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment> {
 
+
+
     public environment.Type visit(IntegerLiteral l, Environment env)
     {
         super.visit(l, env);
