@@ -17,16 +17,17 @@ import static analysis.TypeError.*;
 
 class EnvironmentBuilderUtil {
     // expects the class type of the class where the method resides
-    public static boolean addInstanceVariablesToClass(NodeListOptional varList, ClassType t, GlobalEnvironment env)
+    public static boolean addInstanceVariablesToClass(NodeListOptional varList, ClassType curr_class, GlobalEnvironment env)
     {
         for ( Enumeration<Node> e = varList.elements(); e.hasMoreElements(); ) {
             VarType instanceVar = EnvironmentUtil.vardecl((VarDeclaration) e.nextElement(), env);
-            if (t.containsInstanceVar(instanceVar))
+            instanceVar.setScope(curr_class);
+            if (curr_class.containsInstanceVar(instanceVar))
             {
                 close("Redefining instance variable " + instanceVar.variableName() +
-                        " in class " + t.getClassName());
+                        " in class " + curr_class.getClassName());
             }
-            t.addInstanceVar(instanceVar);
+            curr_class.addInstanceVar(instanceVar);
         }
 
         return true;
@@ -42,7 +43,7 @@ class EnvironmentBuilderUtil {
         }
         else {
             MethodType method = new MethodType(method_name, returnType, curr_class, null);
-            getParameterListForMethod(m.identifier.nodeToken, method, env);
+            getParameterListForMethod(m.nodeOptional.node, method, env);
             curr_class.addMethod(method);
         }
         return true;
@@ -64,7 +65,7 @@ class EnvironmentBuilderUtil {
            FormalParameter fp = (FormalParameter) parameter;
            environment.Type parameterType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(fp.type.nodeChoice.choice, env);
            String parameterName = fp.identifier.nodeToken.toString();
-           VarType parameter_type = new VarType(parameterType, parameterName);
+           VarType parameter_type = new VarType(parameterType, parameterName, m);
            if (!m.containsParameter(parameter_type)) {
                 m.addParameter(parameter_type);
             } else {

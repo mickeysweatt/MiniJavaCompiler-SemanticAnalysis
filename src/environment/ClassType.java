@@ -2,15 +2,10 @@ package environment;
 
 import java.util.*;
 
-public class ClassType implements Type {
-    private String m_name;
+public class ClassType extends ScopedType {
     private Set<ClassType> m_superClasses;
     private Environment<MethodType> m_methods;
     private Environment<VarType> m_instanceVars;
-
-    public String typeName() {
-        return m_name;
-    }
 
     public String toString()
     {
@@ -18,7 +13,7 @@ public class ClassType implements Type {
     }
 
     public ClassType(String name) {
-        m_name = name;
+        super(name, null);
         m_superClasses = null;
         m_methods = new Environment<MethodType>();
         m_instanceVars = new Environment<VarType>();
@@ -44,7 +39,7 @@ public class ClassType implements Type {
     }
 
     public String getClassName() {
-        return m_name;
+        return toString();
     }
 
     public void addInstanceVar(VarType v) {

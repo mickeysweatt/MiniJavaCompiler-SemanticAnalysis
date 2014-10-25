@@ -6,5 +6,6 @@ package environment;
 public interface Type
 {
     public String typeName();
+
 }
 

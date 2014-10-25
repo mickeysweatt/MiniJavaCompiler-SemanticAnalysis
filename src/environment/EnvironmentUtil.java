@@ -37,7 +37,7 @@ public class EnvironmentUtil {
     {
         Type c    = SyntaxTreeTypeToEnvironmentType(v.type.nodeChoice.choice, env);
         String varName = v.identifier.nodeToken.toString();
-        return new VarType(c, varName);
+        return new VarType(c, varName, null);
     }
 
     public static environment.Type SyntaxTreeTypeToEnvironmentType(Node syntaxTreeType, GlobalEnvironment env)

@@ -2,8 +2,8 @@
  * Created by admin on 10/23/14.
  */
 
+import analysis.TypeCheckVisitor;
 import environment.EnvironmentBuilderVisitor;
-import environment.Environment;
 import environment.GlobalEnvironment;
 import  syntaxtree.*;
 import parser.MiniJavaParser;
@@ -23,12 +23,15 @@ public class TypeCheck {
         MiniJavaParser parse = new MiniJavaParser(in);
         try {
             Goal g = parse.Goal();
-            // first get all the class names
-            EnvironmentBuilderVisitor v = new EnvironmentBuilderVisitor();
-
+            // First build up the envrionment (All classes, methods, and parameters for each method)
+            EnvironmentBuilderVisitor e = new EnvironmentBuilderVisitor();
             GlobalEnvironment env = new GlobalEnvironment();
+            g.accept(e, env);
+
+            // then type check
+            TypeCheckVisitor v = new TypeCheckVisitor();
             g.accept(v, env);
-            env.getClasses();
+
 
         } catch (ParseException e){
             System.out.println(e.toString());

@@ -3,9 +3,8 @@ package environment;
 /**
  * Created by admin on 10/24/14.
  */
-public class VarType implements Type {
+public class VarType extends ScopedType {
     private Type   m_type;
-    private String m_name;
 
     public String typeName()
     {
@@ -14,12 +13,12 @@ public class VarType implements Type {
 
     public String variableName()
     {
-        return m_name;
+        return toString();
     }
 
-    public VarType(Type type, String name)
+    public VarType(Type type, String name, Type scope)
     {
-        m_name = name;
+        super(name, scope);
         m_type = type;
     }
 

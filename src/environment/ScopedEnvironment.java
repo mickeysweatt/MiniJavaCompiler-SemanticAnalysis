@@ -5,7 +5,7 @@ package environment;
  */
 public class ScopedEnvironment {
     GlobalEnvironment    m_globalEnvironment;
-    MethodType           m_scope;
+    ScopedType                 m_scope;
     Environment<VarType> m_localVariables;
 
     ScopedEnvironment(GlobalEnvironment globalEnv, MethodType currMethod)
@@ -33,7 +33,8 @@ public class ScopedEnvironment {
         // if not found, then the globals
         if (null == v)
         {
-           v = m_scope.getScope().getInstanceVar(varName);
+            ClassType enclosing_class = (ClassType) m_scope.getScope();
+            v = enclosing_class.getInstanceVar(varName);
         }
         return v;
     }
