@@ -4,6 +4,7 @@
 
 import environment.EnvironmentBuilderVisitor;
 import environment.Environment;
+import environment.GlobalEnvironment;
 import  syntaxtree.*;
 import parser.MiniJavaParser;
 import parser.ParseException;
@@ -25,7 +26,7 @@ public class TypeCheck {
             // first get all the class names
             EnvironmentBuilderVisitor v = new EnvironmentBuilderVisitor();
 
-            Environment env = new Environment();
+            GlobalEnvironment env = new GlobalEnvironment();
             g.accept(v, env);
             env.getClasses();
 

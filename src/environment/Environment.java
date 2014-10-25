@@ -6,56 +6,56 @@ package environment; /**
 import java.util.HashMap;
 import java.util.Map;
 
-public class Environment {
-    private Map<String, ClassType> m_classes;
+public class Environment<ENTITY_TYPE> {
+    private Map<String, ENTITY_TYPE> m_entries;
 
-    public Environment()
-    {
-        m_classes = null;
-    }
+   public Environment()
+   {
+       m_entries = null;
+   }
 
     public Environment(Environment other)
     {
-        if (null == other.getClasses())
+        if (null == other.getEntries())
         {
-            m_classes = null;
+            m_entries = null;
             return;
         }
 
-        m_classes = new HashMap<String, ClassType>();
-        for (String class_name : other.getClasses().keySet())
+        m_entries = new HashMap<String, ENTITY_TYPE>();
+        for (Object entry_name : other.getEntries().keySet())
         {
-            m_classes.put(class_name, other.getClasses().get(class_name));
+            m_entries.put((String) entry_name, (ENTITY_TYPE) other.getEntries().get(entry_name));
         }
     }
 
-    public void addClass(ClassType c)
+    public void addEntry(ENTITY_TYPE c)
     {
-        if (null == m_classes) {
-            m_classes = new HashMap<String, ClassType>();
+        if (null == m_entries) {
+            m_entries = new HashMap<String, ENTITY_TYPE>();
         }
-        m_classes.put(c.getClassName(), c);
+        m_entries.put(c.toString(), c);
     }
 
-    public boolean containsClass(String class_name)
+    public boolean containsEntry(String entry_name)
     {
-       return null != getClass(class_name);
+        return null != getEntry(entry_name);
     }
 
-    public ClassType getClass(String class_name)
+    public ENTITY_TYPE getEntry(String entry_name)
     {
-        if (null != m_classes) {
-            return m_classes.get(class_name);
+        if (null != m_entries) {
+            return m_entries.get(entry_name);
         }
         return null;
     }
 
-    public Map<String, ClassType> getClasses()
+    public Map<String, ENTITY_TYPE> getEntries()
     {
-        return m_classes;
+        return m_entries;
     }
 
-    
+
 }
 
 

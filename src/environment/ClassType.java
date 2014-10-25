@@ -5,18 +5,24 @@ import java.util.*;
 public class ClassType implements Type {
     private String m_name;
     private Set<ClassType> m_superClasses;
-    private Map<String, MethodType> m_methods;
-    private Set<VarType> m_instanceVars;
+    private Environment<MethodType> m_methods;
+    private Environment<VarType> m_instanceVars;
 
     public String typeName() {
         return m_name;
     }
 
+    public String toString()
+    {
+        return typeName();
+    }
+
+
     public ClassType(String name) {
         m_name = name;
         m_superClasses = null;
-        m_methods = null;
-        m_instanceVars = null;
+        m_methods = new Environment<MethodType>();
+        m_instanceVars = new Environment<VarType>();
     }
 
     public void addSuperClass(ClassType t) {
@@ -27,45 +33,26 @@ public class ClassType implements Type {
     }
 
     public void addMethod(MethodType m) {
-        if (null == m_methods) {
-            m_methods = new HashMap<String, MethodType>();
-        }
-        m_methods.put(m.getName(), m);
+        m_methods.addEntry(m);
     }
 
     public MethodType getMethod(String method_name) {
-        if (null != m_methods) {
-            m_methods.get(method_name);
-        }
-        return null;
+            return m_methods.getEntry(method_name);
     }
 
     public boolean containsMethod(String method_name) {
-        return (null != m_methods) && (m_methods.containsKey(method_name));
+        return m_methods.containsEntry(method_name);
     }
-
 
     public String getClassName() {
         return m_name;
     }
 
     public void addInstanceVar(VarType v) {
-        if (null == m_instanceVars) {
-            m_instanceVars = new HashSet<VarType>();
-        }
-        m_instanceVars.add(v);
+        m_instanceVars.addEntry(v);
     }
 
     public boolean containsInstanceVar(VarType v) {
-        boolean rval = false;
-        if (null != m_instanceVars) {
-            for (VarType vt : m_instanceVars) {
-                if (v.variableName() == vt.variableName()) {
-                    rval = true;
-                    break;
-                }
-            }
-        }
-        return rval;
+        return m_instanceVars.containsEntry(v.variableName());
     }
 }

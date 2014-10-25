@@ -1,6 +1,8 @@
 package environment;
 
 import analysis.TypeError;
+import environment.*;
+import environment.Type;
 import syntaxtree.*;
 import visitor.GJDepthFirst;
 
@@ -15,7 +17,7 @@ import static analysis.TypeError.*;
 
 class EnvironmentBuilderUtil {
     // expects the class type of the class where the method resides
-    public static boolean addInstanceVariablesToClass(NodeListOptional varList, ClassType t, Environment env)
+    public static boolean addInstanceVariablesToClass(NodeListOptional varList, ClassType t, GlobalEnvironment env)
     {
         for ( Enumeration<Node> e = varList.elements(); e.hasMoreElements(); ) {
             VarType instanceVar = EnvironmentUtil.vardecl((VarDeclaration) e.nextElement(), env);
@@ -30,10 +32,10 @@ class EnvironmentBuilderUtil {
         return true;
     }
 
-    public static boolean addMethodToClass(MethodDeclaration m, ClassType t, Environment env)
+    public static boolean addMethodToClass(MethodDeclaration m, ClassType t, GlobalEnvironment env)
     {
         String method_name = EnvironmentUtil.methodname(m);
-        environment.Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.type.nodeChoice.choice, env);
+        Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.type.nodeChoice.choice, env);
         if (t.containsMethod(method_name)) {
             close("Redefining method " + method_name + " in class " + t.getClassName());
             return false;
@@ -46,7 +48,7 @@ class EnvironmentBuilderUtil {
         return true;
     }
 
-   public static void getParameterListForMethod(Node parameter, MethodType m, Environment env)
+   public static void getParameterListForMethod(Node parameter, MethodType m, GlobalEnvironment env)
    {
        if (null == parameter)
        {
@@ -63,12 +65,10 @@ class EnvironmentBuilderUtil {
            environment.Type parameterType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(fp.type.nodeChoice.choice, env);
            String parameterName = fp.identifier.nodeToken.toString();
            VarType parameter_type = new VarType(parameterType, parameterName);
-            if (m.containsParameter(parameter_type))
-            {
-                close("Redeclaring parameter " + parameterName + " in " + m.getName());
-            }
-           else {
+           if (!m.containsParameter(parameter_type)) {
                 m.addParameter(parameter_type);
+            } else {
+                close("Redeclaring parameter " + parameterName + " in " + m.getName());
             }
        }
        else if (parameter instanceof FormalParameterList)
@@ -83,10 +83,10 @@ class EnvironmentBuilderUtil {
        }
    }
 }
-public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, Environment> {
+public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, GlobalEnvironment> {
     private ClassType m_currentClass;
 
-    public Integer visit(Goal g, Environment env)
+    public Integer visit(Goal g, GlobalEnvironment env)
     {
         // goes through the first pass just to get the class names
         ClassNameVisitor v = new ClassNameVisitor();
@@ -96,7 +96,7 @@ public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, Environment
     }
 
     // assumes all class names are in env
-    public Integer visit (ClassDeclaration d, Environment env)
+    public Integer visit (ClassDeclaration d, GlobalEnvironment env)
     {
         Integer rval = 0;
         String class_name = EnvironmentUtil.classname(d);
@@ -108,7 +108,7 @@ public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, Environment
         return rval;
     }
 
-    public Integer visit (MethodDeclaration m, Environment env)
+    public Integer visit (MethodDeclaration m, GlobalEnvironment env)
     {
         EnvironmentBuilderUtil.addMethodToClass(m, m_currentClass, env);
         super.visit(m, env);
@@ -117,12 +117,12 @@ public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, Environment
 }
 
 // Just completes first pass to get the class names
-class ClassNameVisitor extends GJDepthFirst<Integer, Environment> {
-    public Integer visit(MainClass m, Environment env)
+class ClassNameVisitor extends GJDepthFirst<Integer, GlobalEnvironment> {
+    public Integer visit(MainClass m, GlobalEnvironment env)
     {
         Integer rval = 0;
         String class_name = EnvironmentUtil.classname(m);
-        if (!env.containsClass(class_name))
+        if (!env.containsEntry(class_name))
         {
             env.addClass(new ClassType(class_name));
         }
@@ -135,11 +135,11 @@ class ClassNameVisitor extends GJDepthFirst<Integer, Environment> {
         return rval;
     }
 
-    public Integer visit (ClassDeclaration d, Environment env)
+    public Integer visit (ClassDeclaration d, GlobalEnvironment env)
     {
         Integer rval = 0;
         String class_name = EnvironmentUtil.classname(d);
-        if (env.containsClass(class_name))
+        if (env.containsEntry(class_name))
         {
             close("Redefining class " + class_name);
             rval = -1;

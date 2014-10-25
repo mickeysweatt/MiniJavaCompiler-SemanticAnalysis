@@ -33,14 +33,14 @@ public class EnvironmentUtil {
         return m.identifier.nodeToken.toString();
     }
 
-    public static VarType vardecl(VarDeclaration v, Environment env)
+    public static VarType vardecl(VarDeclaration v, GlobalEnvironment env)
     {
         Type c    = SyntaxTreeTypeToEnvironmentType(v.type.nodeChoice.choice, env);
         String varName = v.identifier.nodeToken.toString();
         return new VarType(c, varName);
     }
 
-    public static environment.Type SyntaxTreeTypeToEnvironmentType(Node syntaxTreeType, Environment env)
+    public static environment.Type SyntaxTreeTypeToEnvironmentType(Node syntaxTreeType, GlobalEnvironment env)
     {
         if (syntaxTreeType instanceof IntegerType)
         {
