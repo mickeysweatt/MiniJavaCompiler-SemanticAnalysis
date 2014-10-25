@@ -1,18 +1,20 @@
 package environment;
 
+import java.util.Set;
+
 /**
  * Created by michael on 10/25/14.
  */
-public class ScopedEnvironment {
+public class ScopedEnvironment extends Environment {
     GlobalEnvironment    m_globalEnvironment;
-    ScopedType                 m_scope;
+    ScopedType           m_scope;
     Environment<VarType> m_localVariables;
 
-    ScopedEnvironment(GlobalEnvironment globalEnv, MethodType currMethod)
+    ScopedEnvironment(GlobalEnvironment globalEnv, ScopedType currScope)
     {
+        m_scope = currScope;
         m_globalEnvironment = globalEnv;
-        m_scope             = currMethod;
-        m_localVariables    = null;
+        m_localVariables    = new Environment<VarType>();
     }
 
     boolean containsLocalVariable(VarType v)
@@ -37,5 +39,20 @@ public class ScopedEnvironment {
             v = enclosing_class.getInstanceVar(varName);
         }
         return v;
+    }
+
+    GlobalEnvironment getGlobalEnvironment()
+    {
+        return m_globalEnvironment;
+    }
+
+    ScopedType getScope()
+    {
+        return m_scope;
+    }
+
+    Environment getLocalVariables()
+    {
+        return m_localVariables;
     }
 }

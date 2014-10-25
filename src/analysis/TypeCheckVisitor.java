@@ -10,10 +10,22 @@ import visitor.GJDepthFirst;
  */
 public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment> {
 
-//    public Type visit(MethodDeclaration d, Environment env)
-//    {
-//    }
-//
+    public Type visit(ClassDeclaration d, Environment env)
+    {
+        Environment curr_env =  EnvironmentUtil.buildLocalEnvironment(d, env);
+
+        super.visit(d, curr_env);
+        /* null is used for statements which have no value */
+        return null;
+    }
+
+    public Type visit(MethodDeclaration m, Environment env)
+    {
+        Environment curr_env = EnvironmentUtil.buildLocalEnvironment(m, env);
+        super.visit(m, curr_env);
+        /* null is used for statements which have no value */
+        return null;
+    }
 
     public Type visit(IntegerLiteral l, Environment env)
     {

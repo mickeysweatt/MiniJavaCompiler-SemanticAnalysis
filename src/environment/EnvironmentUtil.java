@@ -40,7 +40,7 @@ public class EnvironmentUtil {
         return new VarType(c, varName, null);
     }
 
-    public static environment.Type SyntaxTreeTypeToEnvironmentType(Node syntaxTreeType, GlobalEnvironment env)
+    public static Type SyntaxTreeTypeToEnvironmentType(Node syntaxTreeType, GlobalEnvironment env)
     {
         if (syntaxTreeType instanceof IntegerType)
         {
@@ -62,6 +62,26 @@ public class EnvironmentUtil {
         }
         System.err.println("Type not known");
         return null;
+    }
+
+    public static ScopedEnvironment buildLocalEnvironment(ClassDeclaration classDeclaration, Environment env)
+    {
+        GlobalEnvironment g_env = (GlobalEnvironment) env;
+        String class_name    = classDeclaration.identifier.nodeToken.toString();
+        ClassType curr_class = g_env.getClass(class_name);
+        ScopedEnvironment curr_env = new ScopedEnvironment(g_env, curr_class);
+        return  curr_env;
+    }
+
+    public static ScopedEnvironment  buildLocalEnvironment(MethodDeclaration methodDeclaration, Environment env)
+    {
+        GlobalEnvironment g_env = ((ScopedEnvironment)env).getGlobalEnvironment();
+        String method_name = methodDeclaration.identifier.nodeToken.toString();
+        ClassType scoping_class = (ClassType)((ScopedEnvironment)env).getScope();
+        MethodType curr_method = scoping_class.getMethod(method_name);
+        ScopedEnvironment curr_env = new ScopedEnvironment(g_env, curr_method);
+        EnvironmentBuilderUtil.getVariableList(methodDeclaration.nodeListOptional.nodes, curr_env.getLocalVariables(), g_env);
+        return curr_env;
     }
 
 }

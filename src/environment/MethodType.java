@@ -42,4 +42,9 @@ public class MethodType extends ScopedType {
     {
         return m_methodName;
     }
+
+    public Set<VarType> getParameterList()
+    {
+        return m_parameters;
+    }
 }

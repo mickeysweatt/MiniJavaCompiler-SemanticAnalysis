@@ -1,12 +1,11 @@
 package environment;
 
-import analysis.TypeError;
-import environment.*;
-import environment.Type;
 import syntaxtree.*;
 import visitor.GJDepthFirst;
 
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Vector;
 
 import static analysis.TypeError.*;
 
@@ -43,13 +42,13 @@ class EnvironmentBuilderUtil {
         }
         else {
             MethodType method = new MethodType(method_name, returnType, curr_class, null);
-            getParameterListForMethod(m.nodeOptional.node, method, env);
+            getVariableList(m.nodeOptional.node, method, env);
             curr_class.addMethod(method);
         }
         return true;
     }
 
-   public static void getParameterListForMethod(Node parameter, MethodType m, GlobalEnvironment env)
+   public static void getVariableList(Node parameter, MethodType m, GlobalEnvironment env)
    {
        if (null == parameter)
        {
@@ -57,7 +56,7 @@ class EnvironmentBuilderUtil {
        }
        else if (parameter instanceof  FormalParameterRest)
        {
-           getParameterListForMethod(((FormalParameterRest)parameter).formalParameter, m, env);
+           getVariableList(((FormalParameterRest) parameter).formalParameter, m, env);
        }
 
        else if (parameter instanceof FormalParameter)
@@ -75,15 +74,36 @@ class EnvironmentBuilderUtil {
        else if (parameter instanceof FormalParameterList)
        {
            FormalParameterList pl = (FormalParameterList) parameter;
-           getParameterListForMethod(pl.formalParameter, m, env);
+           getVariableList(pl.formalParameter, m, env);
            for (Node n : pl.nodeListOptional.nodes)
            {
-               getParameterListForMethod(n, m, env);
+               getVariableList(n, m, env);
            }
            return;
        }
    }
+
+    public static void getVariableList(Vector<Node> variableDecls, Environment localVars, GlobalEnvironment env)
+    {
+        for (Node node : variableDecls)
+        {
+            VarDeclaration decl = (VarDeclaration) node;
+            Type varType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(decl.type.nodeChoice.choice, env);
+            String varName = decl.identifier.nodeToken.toString();
+            VarType vt = new VarType(varType, varName, null);
+            if (!localVars.containsEntry(vt.variableName()))
+            {
+                localVars.addEntry(vt);
+            }
+            else
+            {
+                close("Redeclaring parameter");
+            }
+        }
+    }
 }
+
+
 public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, GlobalEnvironment> {
     private ClassType m_currentClass;
 
