@@ -14,4 +14,9 @@ public class GlobalEnvironment extends Environment<ClassType> {
     }
 
     public void addClass(ClassType c) { addEntry(c);}
+
+    public GlobalEnvironment getGlobalEnvironment()
+    {
+        return this;
+    }
 }

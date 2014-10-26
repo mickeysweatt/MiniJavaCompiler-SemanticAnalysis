@@ -9,6 +9,11 @@ public class IntArrayType implements Type {
         return "int["+ m_length + "]";
     }
 
+    @Override
+    public boolean subtype(Type rhs) {
+        return rhs.equals(this);
+    }
+
     IntArrayType (int len) {
         m_length = len;
     }

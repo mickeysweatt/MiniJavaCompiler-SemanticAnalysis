@@ -16,10 +16,18 @@ public class VarType extends ScopedType {
         return toString();
     }
 
+    public Type  variableType() { return m_type;}
+
     public VarType(Type type, String name, Type scope)
     {
         super(name, scope);
         m_type = type;
     }
+
+    public boolean subset(Type rhs)
+    {
+        return m_type.subtype(rhs);
+    }
+
 
 }

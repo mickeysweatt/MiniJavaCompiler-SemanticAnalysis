@@ -9,6 +9,12 @@ public class PrimitiveType implements Type
     {
         return null;
     }
+
+    public boolean subtype(Type rhs)
+    {
+        return rhs.equals(this);
+    }
+
 }
 
 class PrimitiveTypeImpl implements Type {
@@ -36,6 +42,11 @@ class PrimitiveTypeImpl implements Type {
             rval = "boolean";
         }
         return rval;
+    }
+
+    public boolean subtype(Type rhs)
+    {
+        return rhs.equals(this);
     }
 }
 

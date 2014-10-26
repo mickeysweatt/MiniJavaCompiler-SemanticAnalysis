@@ -7,5 +7,7 @@ public interface Type
 {
     public String typeName();
 
+    boolean subtype(Type rhs);
+
 }
 

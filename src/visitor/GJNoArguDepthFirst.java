@@ -18,7 +18,7 @@ public class GJNoArguDepthFirst<R> implements GJNoArguVisitor<R> {
       R _ret=null;
       int _count=0;
       for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
-         e.nextElement().accept(this);
+         _ret = e.nextElement().accept(this);
          _count++;
       }
       return _ret;
@@ -29,7 +29,7 @@ public class GJNoArguDepthFirst<R> implements GJNoArguVisitor<R> {
          R _ret=null;
          int _count=0;
          for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
-            e.nextElement().accept(this);
+            _ret = e.nextElement().accept(this);
             _count++;
          }
          return _ret;
@@ -49,7 +49,7 @@ public class GJNoArguDepthFirst<R> implements GJNoArguVisitor<R> {
       R _ret=null;
       int _count=0;
       for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
-         e.nextElement().accept(this);
+         _ret = e.nextElement().accept(this);
          _count++;
       }
       return _ret;
@@ -68,9 +68,9 @@ public class GJNoArguDepthFirst<R> implements GJNoArguVisitor<R> {
     */
    public R visit(Goal n) {
       R _ret=null;
-      n.mainClass.accept(this);
-      n.nodeListOptional.accept(this);
-      n.nodeToken.accept(this);
+      _ret = n.mainClass.accept(this);
+      _ret = n.nodeListOptional.accept(this);
+      _ret = n.nodeToken.accept(this);
       return _ret;
    }
 
@@ -110,8 +110,8 @@ public class GJNoArguDepthFirst<R> implements GJNoArguVisitor<R> {
       n.identifier1.accept(this);
       n.nodeToken10.accept(this);
       n.nodeToken11.accept(this);
-      n.nodeListOptional.accept(this);
-      n.nodeListOptional1.accept(this);
+      _ret = n.nodeListOptional.accept(this);
+      _ret = n.nodeListOptional1.accept(this);
       n.nodeToken12.accept(this);
       n.nodeToken13.accept(this);
       return _ret;
@@ -123,7 +123,7 @@ public class GJNoArguDepthFirst<R> implements GJNoArguVisitor<R> {
     */
    public R visit(TypeDeclaration n) {
       R _ret=null;
-      n.nodeChoice.accept(this);
+      _ret = n.nodeChoice.accept(this);
       return _ret;
    }
 

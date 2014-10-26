@@ -26,6 +26,15 @@ public class ClassType extends ScopedType {
         m_superClasses.add(t);
     }
 
+    public boolean subtype(Type rhs)
+    {
+        if (rhs.equals(this))
+        {
+            return true;
+        }
+        return m_superClasses.contains(rhs);
+    }
+
     public void addMethod(MethodType m) {
         m_methods.addEntry(m);
     }

@@ -13,97 +13,6 @@ import static analysis.TypeError.*;
 /**
  * Created by admin on 10/23/14.
  */
-
-class EnvironmentBuilderUtil {
-    // expects the class type of the class where the method resides
-    public static boolean addInstanceVariablesToClass(NodeListOptional varList, ClassType curr_class, GlobalEnvironment env)
-    {
-        for ( Enumeration<Node> e = varList.elements(); e.hasMoreElements(); ) {
-            VarType instanceVar = EnvironmentUtil.vardecl((VarDeclaration) e.nextElement(), env);
-            instanceVar.setScope(curr_class);
-            if (curr_class.containsInstanceVar(instanceVar))
-            {
-                close("Redefining instance variable " + instanceVar.variableName() +
-                        " in class " + curr_class.getClassName());
-            }
-            curr_class.addInstanceVar(instanceVar);
-        }
-
-        return true;
-    }
-
-    public static boolean addMethodToClass(MethodDeclaration m, ClassType curr_class, GlobalEnvironment env)
-    {
-        String method_name = EnvironmentUtil.methodname(m);
-        Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.type.nodeChoice.choice, env);
-        if (curr_class.containsMethod(method_name)) {
-            close("Redefining method " + method_name + " in class " + curr_class.getClassName());
-            return false;
-        }
-        else {
-            MethodType method = new MethodType(method_name, returnType, curr_class, null);
-            getVariableList(m.nodeOptional.node, method, env);
-            curr_class.addMethod(method);
-        }
-        return true;
-    }
-
-   public static void getVariableList(Node parameter, MethodType m, GlobalEnvironment env)
-   {
-       if (null == parameter)
-       {
-           return;
-       }
-       else if (parameter instanceof  FormalParameterRest)
-       {
-           getVariableList(((FormalParameterRest) parameter).formalParameter, m, env);
-       }
-
-       else if (parameter instanceof FormalParameter)
-       {
-           FormalParameter fp = (FormalParameter) parameter;
-           environment.Type parameterType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(fp.type.nodeChoice.choice, env);
-           String parameterName = fp.identifier.nodeToken.toString();
-           VarType parameter_type = new VarType(parameterType, parameterName, m);
-           if (!m.containsParameter(parameter_type)) {
-                m.addParameter(parameter_type);
-            } else {
-                close("Redeclaring parameter " + parameterName + " in " + m.getName());
-            }
-       }
-       else if (parameter instanceof FormalParameterList)
-       {
-           FormalParameterList pl = (FormalParameterList) parameter;
-           getVariableList(pl.formalParameter, m, env);
-           for (Node n : pl.nodeListOptional.nodes)
-           {
-               getVariableList(n, m, env);
-           }
-           return;
-       }
-   }
-
-    public static void getVariableList(Vector<Node> variableDecls, Environment localVars, GlobalEnvironment env)
-    {
-        for (Node node : variableDecls)
-        {
-            VarDeclaration decl = (VarDeclaration) node;
-            Type varType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(decl.type.nodeChoice.choice, env);
-            String varName = decl.identifier.nodeToken.toString();
-            VarType vt = new VarType(varType, varName, null);
-            if (!localVars.containsEntry(vt.variableName()))
-            {
-                localVars.addEntry(vt);
-            }
-            else
-            {
-                close("Redeclaring parameter");
-            }
-        }
-    }
-}
-
-
 public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, GlobalEnvironment> {
     private ClassType m_currentClass;
 
@@ -113,6 +22,18 @@ public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, GlobalEnvir
         ClassNameVisitor v = new ClassNameVisitor();
         v.visit(g, env);
         super.visit(g, env);
+        return null;
+    }
+
+    public Integer visit(MainClass m, GlobalEnvironment env)
+    {
+        // add the arg list as a parameter, which cannot be accessed?
+        String mainClassName = EnvironmentUtil.identifierToString(m.identifier);
+        String argsName = EnvironmentUtil.identifierToString(m.identifier1);
+        ClassType main = env.getClass(mainClassName);
+        main.addInstanceVar(new VarType(null, argsName, main));
+        m_currentClass = main;
+        super.visit(m, env);
         return null;
     }
 
@@ -136,6 +57,8 @@ public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, GlobalEnvir
         return null;
     }
 }
+
+
 
 // Just completes first pass to get the class names
 class ClassNameVisitor extends GJDepthFirst<Integer, GlobalEnvironment> {

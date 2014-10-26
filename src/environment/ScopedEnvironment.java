@@ -1,33 +1,50 @@
 package environment;
 
+import analysis.TypeError;
+
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by michael on 10/25/14.
  */
 public class ScopedEnvironment extends Environment {
-    GlobalEnvironment    m_globalEnvironment;
-    ScopedType           m_scope;
-    Environment<VarType> m_localVariables;
+    private GlobalEnvironment    m_globalEnvironment;
+    private ScopedType           m_scope;
+    private Environment<VarType> m_localVariables;
 
-    ScopedEnvironment(GlobalEnvironment globalEnv, ScopedType currScope)
+    public ScopedEnvironment(GlobalEnvironment globalEnv, ScopedType currScope)
     {
         m_scope = currScope;
         m_globalEnvironment = globalEnv;
         m_localVariables    = new Environment<VarType>();
     }
 
-    boolean containsLocalVariable(VarType v)
+    public boolean containsLocalVariable(VarType v)
     {
         return m_localVariables.containsEntry(v.variableName());
     }
 
-    void addLocalVariable(VarType v)
+    public void addLocalVariable(VarType v)
     {
-        m_localVariables.addEntry(v);
+        // see if it is declared in the parameter list for the enclosing method
+        if (!(m_scope instanceof MethodType))
+        {
+            System.err.println("Impoper call to local variables");
+            System.exit(-1);
+        }
+        if (!m_localVariables.containsEntry(v.variableName()))
+        {
+            m_localVariables.addEntry(v);
+        }
+        else
+        {
+            TypeError.close("Redeclaration of " + v.variableName() + " in method " + m_scope.typeName());
+        }
+
     }
 
-    VarType getVariable(String varName)
+    public VarType getVariable(String varName)
     {
         // look first in the local vars
         VarType v = m_localVariables.getEntry(varName);
@@ -41,17 +58,17 @@ public class ScopedEnvironment extends Environment {
         return v;
     }
 
-    GlobalEnvironment getGlobalEnvironment()
+    public GlobalEnvironment getGlobalEnvironment()
     {
         return m_globalEnvironment;
     }
 
-    ScopedType getScope()
+    public ScopedType getScope()
     {
         return m_scope;
     }
 
-    Environment getLocalVariables()
+    public Environment getLocalVariables()
     {
         return m_localVariables;
     }

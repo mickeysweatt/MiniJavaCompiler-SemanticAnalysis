@@ -123,7 +123,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(TypeDeclaration n, A argu) {
       R _ret=null;
-      n.nodeChoice.accept(this, argu);
+      _ret = n.nodeChoice.accept(this, argu);
       return _ret;
    }
 
@@ -301,7 +301,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(Statement n, A argu) {
       R _ret=null;
-      n.nodeChoice.accept(this, argu);
+      _ret = n.nodeChoice.accept(this, argu);
       return _ret;
    }
 
@@ -403,7 +403,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
       R _ret=null;
       n.nodeToken.accept(this, argu);
       n.nodeToken1.accept(this, argu);
-      n.expression.accept(this, argu);
+      _ret = n.expression.accept(this, argu);
       n.nodeToken2.accept(this, argu);
       n.nodeToken3.accept(this, argu);
       return _ret;
@@ -422,7 +422,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(Expression n, A argu) {
       R _ret=null;
-      n.nodeChoice.accept(this, argu);
+      _ret = n.nodeChoice.accept(this, argu);
       return _ret;
    }
 
@@ -529,7 +529,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(MessageSend n, A argu) {
       R _ret=null;
-      n.primaryExpression.accept(this, argu);
+      _ret = n.primaryExpression.accept(this, argu);
       n.nodeToken.accept(this, argu);
       n.identifier.accept(this, argu);
       n.nodeToken1.accept(this, argu);
@@ -544,8 +544,8 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(ExpressionList n, A argu) {
       R _ret=null;
-      n.expression.accept(this, argu);
-      n.nodeListOptional.accept(this, argu);
+      _ret = n.expression.accept(this, argu);
+      R r2 = n.nodeListOptional.accept(this, argu);
       return _ret;
    }
 
@@ -573,7 +573,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(PrimaryExpression n, A argu) {
       R _ret=null;
-      n.nodeChoice.accept(this, argu);
+      _ret = n.nodeChoice.accept(this, argu);
       return _ret;
    }
 
@@ -582,7 +582,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(IntegerLiteral n, A argu) {
       R _ret=null;
-      n.nodeToken.accept(this, argu);
+      _ret = n.nodeToken.accept(this, argu);
       return _ret;
    }
 
@@ -591,7 +591,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(TrueLiteral n, A argu) {
       R _ret=null;
-      n.nodeToken.accept(this, argu);
+      _ret = n.nodeToken.accept(this, argu);
       return _ret;
    }
 
@@ -600,7 +600,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(FalseLiteral n, A argu) {
       R _ret=null;
-      n.nodeToken.accept(this, argu);
+      _ret = n.nodeToken.accept(this, argu);
       return _ret;
    }
 
@@ -609,7 +609,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(Identifier n, A argu) {
       R _ret=null;
-      n.nodeToken.accept(this, argu);
+      _ret = n.nodeToken.accept(this, argu);
       return _ret;
    }
 
@@ -618,7 +618,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     */
    public R visit(ThisExpression n, A argu) {
       R _ret=null;
-      n.nodeToken.accept(this, argu);
+      _ret = n.nodeToken.accept(this, argu);
       return _ret;
    }
 
@@ -673,7 +673,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
    public R visit(BracketExpression n, A argu) {
       R _ret=null;
       n.nodeToken.accept(this, argu);
-      n.expression.accept(this, argu);
+      _ret = n.expression.accept(this, argu);
       n.nodeToken1.accept(this, argu);
       return _ret;
    }

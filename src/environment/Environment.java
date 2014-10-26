@@ -55,6 +55,10 @@ public class Environment<ENTITY_TYPE> {
         return m_entries;
     }
 
+    public GlobalEnvironment getGlobalEnvironment()
+    {
+        return null;
+    }
 
 }
 

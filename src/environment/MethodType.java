@@ -1,22 +1,23 @@
 package environment;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
  * Created by admin on 10/23/14.
  */
 public class MethodType extends ScopedType {
-    private String       m_methodName;
-    private Type         m_returnType;
-    private Set<VarType> m_parameters;
+    private String              m_methodName;
+    private Type                m_returnType;
+    private LinkedList<VarType> m_parameters;
 
     public String typeName()
     {
         return "method";
     }
 
-    public  MethodType(String name, Type returnType, ClassType scope, Set<VarType> parameters)
+    public  MethodType(String name, Type returnType, ClassType scope, LinkedList<VarType> parameters)
     {
         super(name, scope);
         m_methodName = name;
@@ -28,7 +29,7 @@ public class MethodType extends ScopedType {
     {
         if (m_parameters == null)
         {
-            m_parameters = new HashSet<VarType>();
+            m_parameters = new LinkedList<VarType>();
         }
         m_parameters.add(parameter);
     }
@@ -38,12 +39,17 @@ public class MethodType extends ScopedType {
         return (null != m_parameters) && (m_parameters.contains(parameter));
     }
 
+    public Type getReturnType()
+    {
+        return m_returnType;
+    }
+
     public String getName()
     {
         return m_methodName;
     }
 
-    public Set<VarType> getParameterList()
+    public LinkedList<VarType> getParameterList()
     {
         return m_parameters;
     }

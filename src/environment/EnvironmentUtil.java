@@ -9,6 +9,9 @@ import environment.ClassType;
 import environment.Type;
 import syntaxtree.*;
 
+import java.util.LinkedList;
+import java.util.Vector;
+
 public class EnvironmentUtil {
     public static String classname(Node n)
     {
@@ -64,6 +67,11 @@ public class EnvironmentUtil {
         return null;
     }
 
+    public static String identifierToString(Identifier id)
+    {
+        return id.nodeToken.toString();
+    }
+
     public static ScopedEnvironment buildLocalEnvironment(ClassDeclaration classDeclaration, Environment env)
     {
         GlobalEnvironment g_env = (GlobalEnvironment) env;
@@ -81,6 +89,17 @@ public class EnvironmentUtil {
         MethodType curr_method = scoping_class.getMethod(method_name);
         ScopedEnvironment curr_env = new ScopedEnvironment(g_env, curr_method);
         EnvironmentBuilderUtil.getVariableList(methodDeclaration.nodeListOptional.nodes, curr_env.getLocalVariables(), g_env);
+
+        // add parameters to local variables
+        for( VarType v : curr_method.getParameterList())
+        {
+            curr_env.addLocalVariable(v);
+        }
+        // get local variables
+        Vector<Node> localVars = methodDeclaration.nodeListOptional.nodes;
+
+
+
         return curr_env;
     }
 
