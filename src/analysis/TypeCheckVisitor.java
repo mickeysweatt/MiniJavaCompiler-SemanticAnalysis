@@ -147,6 +147,19 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         return curr_method.getScope();
     }
 
+    public Type visit(AssignmentStatement a, Environment env)
+    {
+
+        Type lhs_type = a.identifier.accept(this, env);
+        Type rhs_type = a.expression.accept(this, env);
+
+        if (!lhs_type.subtype(rhs_type))
+        {
+            TypeError.close("Type mismatch" + lhs_type.typeName() + ", " + rhs_type.typeName());
+        }
+        return lhs_type;
+    }
+
     public Type visit (AllocationExpression alloc, Environment env) {
         String class_name = EnvironmentUtil.identifierToString(alloc.identifier);
         // make sure the RHS is valid class name
