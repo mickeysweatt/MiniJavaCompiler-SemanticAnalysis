@@ -69,8 +69,8 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     {
         Type rval = null;
         String id_name = EnvironmentUtil.identifierToString(id);
-        // we only care to look-ups on variables, all other ids are handle elsewhere.
-        if (env instanceof ScopedEnvironment)
+        // we only care to look-ups on variables,not for declarations, all other ids are handle elsewhere.
+        if (env instanceof ScopedEnvironment && ((ScopedEnvironment) env).getScope() instanceof MethodType)
         {
             ScopedEnvironment curr_env = (ScopedEnvironment) env;
             VarType var = curr_env.getVariable(id_name);
@@ -173,13 +173,20 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
     public Type visit(MethodDeclaration m, Environment env)
     {
-        Environment curr_env = EnvironmentUtil.buildLocalEnvironment(m, env);
-        m.nodeToken.accept(this, curr_env);
+        ScopedEnvironment curr_env = EnvironmentUtil.buildLocalEnvironment(m, env);
+        MethodType curr_method = (MethodType) curr_env.getScope();
+
         m.type.accept(this, curr_env);
         m.nodeOptional.accept(this, curr_env);
         m.nodeListOptional.accept(this, curr_env);
         m.nodeListOptional1.accept(this, curr_env);
-        m.expression.accept(this, curr_env);
+        Type returnType =  m.expression.accept(this, curr_env);
+
+        if (!curr_method.getReturnType().subtype(returnType))
+        {
+            TypeError.close(returnType + " is not a subtype of " + curr_method.getReturnType());
+        }
+
         /* null is used for statements which have no value */
         return null;
     }

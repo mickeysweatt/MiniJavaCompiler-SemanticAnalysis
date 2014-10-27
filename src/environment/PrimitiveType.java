@@ -30,6 +30,11 @@ class PrimitiveTypeImpl implements Type {
         m_type = t;
     }
 
+    public String toString()
+    {
+        return typeName();
+    }
+
     public String typeName()
     {
         String rval = null;

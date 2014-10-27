@@ -49,10 +49,17 @@ public class EnvironmentUtil {
         {
             return PrimitiveType.INT_TYPE;
         }
+
         else if (syntaxTreeType instanceof  BooleanType)
         {
             return PrimitiveType.BOOL_TYPE;
         }
+
+        else if (syntaxTreeType instanceof ArrayType)
+        {
+            return new IntArrayType();
+        }
+
         else if (syntaxTreeType instanceof Identifier)
         {
             String class_name = ((Identifier)syntaxTreeType).nodeToken.toString();

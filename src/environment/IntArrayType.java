@@ -2,7 +2,7 @@ package environment;
 
 public class IntArrayType implements Type {
 
-    private int m_length;
+    private Integer m_length;
 
     public String typeName()
     {
@@ -14,7 +14,19 @@ public class IntArrayType implements Type {
         return rhs.equals(this);
     }
 
-    IntArrayType (int len) {
+    public IntArrayType() {m_length = null;}
+
+    public IntArrayType (int len) {
         m_length = len;
+    }
+
+    public void setLength(int len)
+    {
+        m_length = len;
+    }
+
+    public int getLength()
+    {
+        return m_length.intValue();
     }
 }
