@@ -11,7 +11,7 @@ public class IntArrayType implements Type {
 
     @Override
     public boolean subtype(Type rhs) {
-        return rhs.equals(this);
+        return (rhs instanceof IntArrayType);
     }
 
     public IntArrayType() {m_length = null;}

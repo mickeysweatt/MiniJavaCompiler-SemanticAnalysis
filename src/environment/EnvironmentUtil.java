@@ -10,6 +10,7 @@ import environment.Type;
 import syntaxtree.*;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 public class EnvironmentUtil {
@@ -98,14 +99,13 @@ public class EnvironmentUtil {
         EnvironmentBuilderUtil.getVariableList(methodDeclaration.nodeListOptional.nodes, curr_env.getLocalVariables(), g_env);
 
         // add parameters to local variables
-        for( VarType v : curr_method.getParameterList())
-        {
-            curr_env.addLocalVariable(v);
+        LinkedList<VarType> parameterList = curr_method.getParameterList();
+        if (null != parameterList) {
+            for( VarType v : parameterList)
+            {
+                curr_env.addLocalVariable(v);
+            }
         }
-        // get local variables
-        Vector<Node> localVars = methodDeclaration.nodeListOptional.nodes;
-
-
 
         return curr_env;
     }

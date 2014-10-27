@@ -31,7 +31,7 @@ public class TypeCheck {
             // then type check
             TypeCheckVisitor v = new TypeCheckVisitor();
             g.accept(v, env);
-
+            System.out.println("Type checks");
 
         } catch (ParseException e){
             System.out.println(e.toString());

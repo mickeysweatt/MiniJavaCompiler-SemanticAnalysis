@@ -18,11 +18,12 @@ public class TypeCheckUtil {
     static void TypeCheckBinaryArithLogExpression(TypeCheckVisitor  v,
                                                   Environment       env,
                                                   PrimaryExpression lhs,
-                                                  PrimaryExpression rhs)
+                                                  PrimaryExpression rhs,
+                                                  Type expectedArgType)
     {
         Type lhs_type = lhs.accept(v, env);
         Type rhs_type = rhs.accept(v, env);
-        if (PrimitiveType.INT_TYPE !=  lhs_type || PrimitiveType.INT_TYPE != rhs_type)
+        if (expectedArgType !=  lhs_type || expectedArgType != rhs_type)
         {
             close("Expression expects 2 ints");
         }
