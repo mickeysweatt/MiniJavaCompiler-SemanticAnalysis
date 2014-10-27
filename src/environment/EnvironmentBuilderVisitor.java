@@ -1,5 +1,6 @@
 package environment;
 
+import analysis.TypeError;
 import syntaxtree.*;
 import visitor.GJDepthFirst;
 
@@ -13,7 +14,7 @@ import static analysis.TypeError.*;
 /**
  * Created by admin on 10/23/14.
  */
-public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, GlobalEnvironment> {
+public class EnvironmentBuilderVisitor extends GJDepthFirst<Object, GlobalEnvironment> {
     private ClassType m_currentClass;
 
     public Integer visit(Goal g, GlobalEnvironment env)
@@ -50,6 +51,25 @@ public class EnvironmentBuilderVisitor extends GJDepthFirst<Integer, GlobalEnvir
         return rval;
     }
 
+    public Integer visit (ClassExtendsDeclaration d, GlobalEnvironment env)
+    {
+        Integer rval = 0;
+        String class_name = EnvironmentUtil.classname(d);
+        String super_name = EnvironmentUtil.identifierToString(d.identifier1);
+        ClassType curr_class  = env.getClass(class_name);
+        ClassType super_class = env.getClass(super_name);
+        if (null == super_class)
+        {
+            TypeError.close("Undeclared identifer " + super_name);
+        }
+        EnvironmentBuilderUtil.addInstanceVariablesToClass(d.nodeListOptional, curr_class, env);
+        curr_class.addSuperClass(super_class);
+        env.addClass(curr_class);
+        m_currentClass = curr_class;
+        super.visit(d, env);
+        return rval;
+    }
+
     public Integer visit (MethodDeclaration m, GlobalEnvironment env)
     {
         EnvironmentBuilderUtil.addMethodToClass(m, m_currentClass, env);
@@ -79,10 +99,10 @@ class ClassNameVisitor extends GJDepthFirst<Integer, GlobalEnvironment> {
         return rval;
     }
 
-    public Integer visit (ClassDeclaration d, GlobalEnvironment env)
+    public Integer visit (TypeDeclaration d, GlobalEnvironment env)
     {
         Integer rval = 0;
-        String class_name = EnvironmentUtil.classname(d);
+        String class_name = EnvironmentUtil.classname(d.nodeChoice.choice);
         if (env.containsEntry(class_name))
         {
             close("Redefining class " + class_name);
@@ -95,5 +115,4 @@ class ClassNameVisitor extends GJDepthFirst<Integer, GlobalEnvironment> {
         super.visit(d, env);
         return rval;
     }
-
 }

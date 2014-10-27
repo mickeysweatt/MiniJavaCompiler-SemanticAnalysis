@@ -21,9 +21,14 @@ public class ClassType extends ScopedType {
 
     public void addSuperClass(ClassType t) {
         if (null == m_superClasses) {
-            m_superClasses = new TreeSet<ClassType>();
+            m_superClasses = new HashSet<ClassType>();
         }
         m_superClasses.add(t);
+    }
+
+    public Set<ClassType> getSuperClasses()
+    {
+        return m_superClasses;
     }
 
     public boolean subtype(Type rhs)

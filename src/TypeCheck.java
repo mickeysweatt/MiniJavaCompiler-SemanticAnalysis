@@ -3,6 +3,7 @@
  */
 
 import analysis.TypeCheckVisitor;
+import environment.EnvironmentBuilderUtil;
 import environment.EnvironmentBuilderVisitor;
 import environment.GlobalEnvironment;
 import  syntaxtree.*;
@@ -27,6 +28,7 @@ public class TypeCheck {
             EnvironmentBuilderVisitor e = new EnvironmentBuilderVisitor();
             GlobalEnvironment env = new GlobalEnvironment();
             g.accept(e, env);
+            EnvironmentBuilderUtil.flattenSubtyping(env);
 
             // then type check
             TypeCheckVisitor v = new TypeCheckVisitor();

@@ -7,7 +7,6 @@ import visitor.GJDepthFirst;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.TimerTask;
 
 /**
  * Created by admin on 10/23/14.
@@ -16,7 +15,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
     public Type visit(ClassDeclaration d, Environment env)
     {
-        Environment curr_env =  EnvironmentUtil.buildLocalEnvironment(d, env);
+        Environment curr_env =  EnvironmentBuilderUtil.buildLocalEnvironment(d, env);
         Type rval;
         rval = d.nodeListOptional.accept(this, curr_env);
         rval = d.nodeListOptional1.accept(this, curr_env);
@@ -228,7 +227,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
     public Type visit(MethodDeclaration m, Environment env)
     {
-        ScopedEnvironment curr_env = EnvironmentUtil.buildLocalEnvironment(m, env);
+        ScopedEnvironment curr_env = EnvironmentBuilderUtil.buildLocalEnvironment(m, env);
         MethodType curr_method = (MethodType) curr_env.getScope();
 
         m.type.accept(this, curr_env);

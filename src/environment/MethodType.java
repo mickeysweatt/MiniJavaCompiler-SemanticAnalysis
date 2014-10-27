@@ -8,7 +8,6 @@ import java.util.Set;
  * Created by admin on 10/23/14.
  */
 public class MethodType extends ScopedType {
-    private String              m_methodName;
     private Type                m_returnType;
     private LinkedList<VarType> m_parameters;
 
@@ -20,7 +19,6 @@ public class MethodType extends ScopedType {
     public  MethodType(String name, Type returnType, ClassType scope, LinkedList<VarType> parameters)
     {
         super(name, scope);
-        m_methodName = name;
         m_returnType = returnType;
         m_parameters = parameters;
     }
@@ -44,10 +42,6 @@ public class MethodType extends ScopedType {
         return m_returnType;
     }
 
-    public String getName()
-    {
-        return m_methodName;
-    }
 
     public LinkedList<VarType> getParameterList()
     {

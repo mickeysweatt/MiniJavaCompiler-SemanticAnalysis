@@ -1,11 +1,10 @@
 package environment;
 
+import analysis.TypeError;
 import syntaxtree.*;
 import visitor.GJDepthFirst;
 
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 import static analysis.TypeError.close;
 
@@ -13,6 +12,50 @@ import static analysis.TypeError.close;
  * Created by michael on 10/25/14.
  */
 public class EnvironmentBuilderUtil {
+
+    public static void flattenSubtyping(GlobalEnvironment env)
+    {
+        Map<String, ClassType> classes = env.getClasses();
+
+        for (Map.Entry<String, ClassType> pair : classes.entrySet())
+        {
+            ClassType cl = pair.getValue();
+            getSuperClasses(cl, null);
+        }
+
+    }
+
+
+    private static void getSuperClasses(ClassType c, Set<ClassType> visited)
+    {
+        if (null == visited)
+        {
+            visited = new HashSet<ClassType>();
+        }
+        else if (visited.contains(c))
+        {
+            TypeError.close("Cycle detected in class hierarchy.");
+        }
+        visited.add(c);
+        // get first value out of the super classes (should only be one if any at this point)
+        Set<ClassType> supList = c.getSuperClasses();
+        if (null == supList)
+        {
+            return;
+        }
+        else
+        {
+            // get direct super
+            ClassType sup = supList.iterator().next();
+            // fill out super classes of direct super
+            getSuperClasses(sup, visited);
+            supList = sup.getSuperClasses();
+            if (supList != null) {
+                c.getSuperClasses().addAll(sup.getSuperClasses());
+            }
+        }
+    }
+
     // expects the class type of the class where the method resides
     public static boolean addInstanceVariablesToClass(NodeListOptional varList, ClassType curr_class, GlobalEnvironment env)
     {
@@ -67,7 +110,7 @@ public class EnvironmentBuilderUtil {
             if (!m.containsParameter(parameter_type)) {
                 m.addParameter(parameter_type);
             } else {
-                close("Redeclaring parameter " + parameterName + " in " + m.getName());
+                close("Redeclaring parameter " + parameterName + " in " + m.typeName());
             }
         }
         else if (parameter instanceof FormalParameterList)
@@ -101,6 +144,35 @@ public class EnvironmentBuilderUtil {
         }
     }
 
+    public static ScopedEnvironment buildLocalEnvironment(ClassDeclaration classDeclaration, Environment env)
+    {
+        GlobalEnvironment g_env = (GlobalEnvironment) env;
+        String class_name    = classDeclaration.identifier.nodeToken.toString();
+        ClassType curr_class = g_env.getClass(class_name);
+        ScopedEnvironment curr_env = new ScopedEnvironment(g_env, curr_class);
+        return  curr_env;
+    }
+
+    public static ScopedEnvironment  buildLocalEnvironment(MethodDeclaration methodDeclaration, Environment env)
+    {
+        GlobalEnvironment g_env = ((ScopedEnvironment)env).getGlobalEnvironment();
+        String method_name = methodDeclaration.identifier.nodeToken.toString();
+        ClassType scoping_class = (ClassType)((ScopedEnvironment)env).getScope();
+        MethodType curr_method = scoping_class.getMethod(method_name);
+        ScopedEnvironment curr_env = new ScopedEnvironment(g_env, curr_method);
+        getVariableList(methodDeclaration.nodeListOptional.nodes, curr_env.getLocalVariables(), g_env);
+
+        // add parameters to local variables
+        LinkedList<VarType> parameterList = curr_method.getParameterList();
+        if (null != parameterList) {
+            for( VarType v : parameterList)
+            {
+                curr_env.addLocalVariable(v);
+            }
+        }
+
+        return curr_env;
+    }
 }
 
 
