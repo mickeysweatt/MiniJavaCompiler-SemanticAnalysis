@@ -9,11 +9,22 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Created by admin on 10/23/14.
+ * Author: Mickey Sweatt
  */
 public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment> {
 
     public Type visit(ClassDeclaration d, Environment env)
+    {
+        Environment curr_env =  EnvironmentBuilderUtil.buildLocalEnvironment(d, env);
+        Type rval;
+        rval = d.nodeListOptional.accept(this, curr_env);
+        rval = d.nodeListOptional1.accept(this, curr_env);
+
+        /* null is used for statements which have no value */
+        return rval;
+    }
+
+    public Type visit(ClassExtendsDeclaration d, Environment env)
     {
         Environment curr_env =  EnvironmentBuilderUtil.buildLocalEnvironment(d, env);
         Type rval;

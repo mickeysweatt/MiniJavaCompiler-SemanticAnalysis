@@ -6,11 +6,13 @@ import analysis.TypeCheckVisitor;
 import environment.EnvironmentBuilderUtil;
 import environment.EnvironmentBuilderVisitor;
 import environment.GlobalEnvironment;
-import  syntaxtree.*;
 import parser.MiniJavaParser;
 import parser.ParseException;
+import syntaxtree.Goal;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class TypeCheck {
     public static void main(String[] Args ) {
@@ -23,8 +25,8 @@ public class TypeCheck {
         }
         MiniJavaParser parse = new MiniJavaParser(in);
         try {
-            Goal g = parse.Goal();
-            // First build up the envrionment (All classes, methods, and parameters for each method)
+            Goal g = MiniJavaParser.Goal();
+            // First build up the environment (All classes, methods, and parameters for each method)
             EnvironmentBuilderVisitor e = new EnvironmentBuilderVisitor();
             GlobalEnvironment env = new GlobalEnvironment();
             g.accept(e, env);

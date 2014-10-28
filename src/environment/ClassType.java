@@ -1,6 +1,8 @@
 package environment;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ClassType extends ScopedType {
     private Set<ClassType> m_superClasses;
@@ -46,6 +48,11 @@ public class ClassType extends ScopedType {
 
     public MethodType getMethod(String method_name)  {
             return m_methods.getEntry(method_name);
+    }
+
+    public Collection<MethodType> getMethods()
+    {
+        return m_methods.getEntries().values();
     }
 
     public boolean containsMethod(String method_name) {

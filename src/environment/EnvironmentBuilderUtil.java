@@ -2,7 +2,6 @@ package environment;
 
 import analysis.TypeError;
 import syntaxtree.*;
-import visitor.GJDepthFirst;
 
 import java.util.*;
 
@@ -13,16 +12,50 @@ import static analysis.TypeError.close;
  */
 public class EnvironmentBuilderUtil {
 
-    public static void flattenSubtyping(GlobalEnvironment env)
-    {
+    public static void flattenSubtyping(GlobalEnvironment env) {
         Map<String, ClassType> classes = env.getClasses();
 
-        for (Map.Entry<String, ClassType> pair : classes.entrySet())
-        {
+        for (Map.Entry<String, ClassType> pair : classes.entrySet()) {
             ClassType cl = pair.getValue();
             getSuperClasses(cl, null);
         }
+        evaluateOverridenMethods(env);
+    }
 
+    public static void evaluateOverridenMethods(GlobalEnvironment env)
+    {
+        Map<String, ClassType> classes = env.getClasses();
+        for (Map.Entry<String, ClassType> pair : classes.entrySet()) {
+            ClassType cl = pair.getValue();
+            if (null ==  cl.getSuperClasses())
+            {
+                continue;
+            }
+            for (ClassType sup : cl.getSuperClasses()) {
+                for (MethodType method : sup.getMethods()) {
+
+                    String method_name = method.typeName();
+                    if (cl.containsMethod(method_name))
+                    {
+                        // check for overloading
+                        LinkedList<VarType> subclass_params   =  cl.getMethod(method_name).getParameterList();
+                        LinkedList<VarType> superclass_params =  method.getParameterList();
+                        Type subclass_retVal   =  cl.getMethod(method_name).getReturnType();
+                        Type superclass_retVal =  method.getReturnType();
+
+                        if (!superclass_params.equals(subclass_params) || !subclass_retVal.equals(superclass_retVal))
+                        {
+                            TypeError.close("No overloading allowed");
+                        }
+                    }
+                    // if this is just inherited, put it into scope
+                    else
+                    {
+                        cl.addMethod(method);
+                    }
+                }
+            }
+        }
     }
 
 
@@ -39,11 +72,8 @@ public class EnvironmentBuilderUtil {
         visited.add(c);
         // get first value out of the super classes (should only be one if any at this point)
         Set<ClassType> supList = c.getSuperClasses();
-        if (null == supList)
-        {
-            return;
-        }
-        else
+
+        if (null != supList)
         {
             // get direct super
             ClassType sup = supList.iterator().next();
@@ -92,16 +122,12 @@ public class EnvironmentBuilderUtil {
 
     public static void getVariableList(Node parameter, MethodType m, GlobalEnvironment env)
     {
-        if (null == parameter)
-        {
-            return;
-        }
-        else if (parameter instanceof FormalParameterRest)
+        if (null != parameter && parameter instanceof FormalParameterRest)
         {
             getVariableList(((FormalParameterRest) parameter).formalParameter, m, env);
         }
 
-        else if (parameter instanceof FormalParameter)
+        else if (null != parameter && parameter instanceof FormalParameter)
         {
             FormalParameter fp = (FormalParameter) parameter;
             environment.Type parameterType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(fp.type.nodeChoice.choice, env);
@@ -113,7 +139,7 @@ public class EnvironmentBuilderUtil {
                 close("Redeclaring parameter " + parameterName + " in " + m.typeName());
             }
         }
-        else if (parameter instanceof FormalParameterList)
+        else if (null != parameter && parameter instanceof FormalParameterList)
         {
             FormalParameterList pl = (FormalParameterList) parameter;
             getVariableList(pl.formalParameter, m, env);
@@ -121,7 +147,6 @@ public class EnvironmentBuilderUtil {
             {
                 getVariableList(n, m, env);
             }
-            return;
         }
     }
 
@@ -149,8 +174,15 @@ public class EnvironmentBuilderUtil {
         GlobalEnvironment g_env = (GlobalEnvironment) env;
         String class_name    = classDeclaration.identifier.nodeToken.toString();
         ClassType curr_class = g_env.getClass(class_name);
-        ScopedEnvironment curr_env = new ScopedEnvironment(g_env, curr_class);
-        return  curr_env;
+        return new ScopedEnvironment(g_env, curr_class);
+    }
+
+    public static ScopedEnvironment buildLocalEnvironment(ClassExtendsDeclaration classDeclaration, Environment env)
+    {
+        GlobalEnvironment g_env = (GlobalEnvironment) env;
+        String class_name    = classDeclaration.identifier.nodeToken.toString();
+        ClassType curr_class = g_env.getClass(class_name);
+        return new ScopedEnvironment(g_env, curr_class);
     }
 
     public static ScopedEnvironment  buildLocalEnvironment(MethodDeclaration methodDeclaration, Environment env)

@@ -1,20 +1,13 @@
 package environment;
 
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 /**
- * Created by admin on 10/23/14.
+ Author: Mickey Sweatt
  */
 public class MethodType extends ScopedType {
     private Type                m_returnType;
     private LinkedList<VarType> m_parameters;
-
-    public String typeName()
-    {
-        return "method";
-    }
 
     public  MethodType(String name, Type returnType, ClassType scope, LinkedList<VarType> parameters)
     {
@@ -42,9 +35,15 @@ public class MethodType extends ScopedType {
         return m_returnType;
     }
 
+    public String methodName() { return typeName(); }
+
 
     public LinkedList<VarType> getParameterList()
     {
+        if (null == m_parameters)
+        {
+            m_parameters = new LinkedList<VarType>();
+        }
         return m_parameters;
     }
 }

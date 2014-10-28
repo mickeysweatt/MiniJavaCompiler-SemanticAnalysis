@@ -21,7 +21,7 @@ class B extends A {
 
 class C extends B
 {
-    public int c()
+    public int b()
     {
         return 3;
     }
