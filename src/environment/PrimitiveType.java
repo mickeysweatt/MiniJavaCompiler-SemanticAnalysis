@@ -51,7 +51,7 @@ class PrimitiveTypeImpl implements Type {
 
     public boolean subtype(Type rhs)
     {
-        return rhs.equals(this);
+        return null != rhs  && rhs.equals(this);
     }
 }
 

@@ -137,7 +137,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         // lhs must be a class
         Type lhs_type = ms.primaryExpression.accept(this, env);
         Type rval = null;
-        if (lhs_type instanceof  ClassType) {
+        if (null != lhs_type && lhs_type instanceof  ClassType) {
             // rhs must be a member of that class
             String method_name = EnvironmentUtil.identifierToString(ms.identifier);
             MethodType rhs =  ((ClassType) lhs_type).getMethod(method_name);
@@ -146,23 +146,30 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
                 // check all the parameters.
                 LinkedList<Type>    passed_parameters = TypeCheckUtil.getArgumentTypes(ms.nodeOptional.node, env);
                 LinkedList<VarType> method_parameters = rhs.getParameterList();
-                if (passed_parameters.size() != method_parameters.size())
+                if (null == passed_parameters)
+                {
+                    if (0 != method_parameters.size()) {
+                        // one expects no parameters and the other does
+                        analysis.TypeError.close("Parameter count is wrong for " + method_name);
+                    }
+                    // else fall through
+                }
+                else if (passed_parameters.size() != method_parameters.size() )
                 {
                     analysis.TypeError.close("Parameter count is wrong for " + method_name);
                 }
-                Iterator passed_iter = passed_parameters.iterator();
-                Iterator method_iter = method_parameters.iterator();
+                else {
+                    Iterator passed_iter = passed_parameters.iterator();
+                    Iterator method_iter = method_parameters.iterator();
 
-                while (passed_iter.hasNext() && method_iter.hasNext()) {
-                    Type passed_type = (Type) passed_iter.next();
-                    Type method_type = ((VarType) method_iter.next()).variableType();
-                    if (!passed_type.equals(method_type))
-                    {
-                       TypeError.close("Type mismatch for " + method_name);
+                    while (passed_iter.hasNext() && method_iter.hasNext()) {
+                        Type passed_type = (Type) passed_iter.next();
+                        Type method_type = ((VarType) method_iter.next()).variableType();
+                        if (!passed_type.subtype(method_type)) {
+                            TypeError.close("Type mismatch for " + method_name);
+                        }
                     }
                 }
-
-
                 // type of this expression is the return type of the method called
                 rval = rhs.getReturnType();
             }
@@ -174,7 +181,6 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         else {
            TypeError.close("Message passing to non-class type");
         }
-
 
         return rval;
     }
@@ -192,6 +198,11 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
         Type lhs_type = a.identifier.accept(this, env);
         Type rhs_type = a.expression.accept(this, env);
+
+        if (null == lhs_type || null == rhs_type)
+        {
+            TypeError.close("Type mismatch");
+        }
 
         if (!lhs_type.subtype(rhs_type))
         {
@@ -247,7 +258,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         m.nodeListOptional1.accept(this, curr_env);
         Type returnType =  m.expression.accept(this, curr_env);
 
-        if (!curr_method.getReturnType().subtype(returnType))
+        if (null == curr_method || !curr_method.getReturnType().subtype(returnType))
         {
             TypeError.close(returnType + " is not a subtype of " + curr_method.getReturnType());
         }
@@ -260,7 +271,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     {
         Type index_type = a.expression.accept(this, env);
         Type rhs_type   = a.expression1.accept(this, env);
-        if (!index_type.equals(PrimitiveType.INT_TYPE) || !rhs_type.equals(PrimitiveType.INT_TYPE))
+        if (null == index_type || !index_type.equals(PrimitiveType.INT_TYPE) || !rhs_type.equals(PrimitiveType.INT_TYPE))
         {
             TypeError.close("Array assignemtn malformed");
         }
@@ -280,7 +291,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     public Type visit(ArrayLength l, Environment env)
     {
         Type lhs_type = l.primaryExpression.accept(this, env);
-        if (!(lhs_type instanceof IntArrayType))
+        if (null == lhs_type || !(lhs_type instanceof IntArrayType))
         {
             TypeError.close("Calling array length on not an array");
         }
@@ -291,7 +302,8 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     {
         Type array_type = l.primaryExpression.accept(this, env);
         Type index_type = l.primaryExpression1.accept(this, env);
-        if (!(array_type instanceof IntArrayType) || null == index_type || !index_type.subtype(PrimitiveType.INT_TYPE))
+        if ((null == array_type || null == index_type) ||
+            !(array_type instanceof IntArrayType) || null == index_type || !index_type.subtype(PrimitiveType.INT_TYPE))
         {
             TypeError.close("Array lookup perfomed on not an array or with wrong index");
         }

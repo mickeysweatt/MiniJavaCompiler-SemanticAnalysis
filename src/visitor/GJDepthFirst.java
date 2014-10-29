@@ -313,7 +313,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
    public R visit(Block n, A argu) {
       R _ret=null;
       n.nodeToken.accept(this, argu);
-      n.nodeListOptional.accept(this, argu);
+      _ret = n.nodeListOptional.accept(this, argu);
       n.nodeToken1.accept(this, argu);
       return _ret;
    }

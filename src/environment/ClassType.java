@@ -74,4 +74,9 @@ public class ClassType extends ScopedType {
     public VarType getInstanceVar(String varName) {
         return m_instanceVars.getEntry(varName);
     }
+
+    public Collection<VarType> getInstanceVariables() {
+        return (null == m_instanceVars || m_instanceVars.getEntries() == null) ? null :
+                                                                                 m_instanceVars.getEntries().values();
+    }
 }

@@ -20,6 +20,33 @@ public class EnvironmentBuilderUtil {
             getSuperClasses(cl, null);
         }
         evaluateOverridenMethods(env);
+        flattenInstanceVars(env);
+    }
+
+    public static void flattenInstanceVars(GlobalEnvironment env) {
+        Map<String, ClassType> classes = env.getClasses();
+        // for each class
+        for (Map.Entry<String, ClassType> pair : classes.entrySet()) {
+            ClassType cl = pair.getValue();
+            if (null == cl.getSuperClasses()) {
+                continue;
+            }
+            // for each super class
+            for (ClassType sup : cl.getSuperClasses()) {
+                if (null == sup.getInstanceVariables()) {
+                    continue;
+                }
+                // get each variable
+                for (VarType v : sup.getInstanceVariables()) {
+                    if (cl.containsInstanceVar(v)) {
+                        TypeError.close("Redeclaration of variable" + v.variableName() + " original declared in "
+                                + sup.getClassName() + " in " + cl.getClassName());
+                    } else {
+                        cl.addInstanceVar(v);
+                    }
+                }
+            }
+        }
     }
 
     public static void evaluateOverridenMethods(GlobalEnvironment env)
@@ -32,6 +59,10 @@ public class EnvironmentBuilderUtil {
                 continue;
             }
             for (ClassType sup : cl.getSuperClasses()) {
+                if (null ==  cl.getMethods())
+                {
+                    continue;
+                }
                 for (MethodType method : sup.getMethods()) {
 
                     String method_name = method.typeName();
@@ -42,7 +73,13 @@ public class EnvironmentBuilderUtil {
                         LinkedList<VarType> superclass_params =  method.getParameterList();
                         Type subclass_retVal   =  cl.getMethod(method_name).getReturnType();
                         Type superclass_retVal =  method.getReturnType();
-
+                        if (null == superclass_params || null == subclass_params)
+                        {
+                            if ((Object)subclass_params != (Object)superclass_params)
+                            {
+                                TypeError.close("No overloading allowed");
+                            }
+                        }
                         if (!superclass_params.equals(subclass_params) || !subclass_retVal.equals(superclass_retVal))
                         {
                             TypeError.close("No overloading allowed");

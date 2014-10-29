@@ -15,6 +15,17 @@ public class VarType extends ScopedType {
     {
         return toString();
     }
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof VarType)
+        {
+            VarType other = (VarType) obj;
+            return other.m_type == m_type && other.variableName() == variableName();
+        }
+        else
+            return false;
+    }
 
     public Type  variableType() { return m_type;}
 
