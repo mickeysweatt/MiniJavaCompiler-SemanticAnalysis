@@ -38,12 +38,10 @@ public class EnvironmentBuilderUtil {
                 }
                 // get each variable
                 for (VarType v : sup.getInstanceVariables()) {
-                    if (cl.containsInstanceVar(v)) {
-                        TypeError.close("Redeclaration of variable" + v.variableName() + " original declared in "
-                                + sup.getClassName() + " in " + cl.getClassName());
-                    } else {
+                    if (!cl.containsInstanceVar(v)) {
                         cl.addInstanceVar(v);
                     }
+                    // to support shadowing this will use the most derived definition of any variable
                 }
             }
         }
@@ -205,6 +203,26 @@ public class EnvironmentBuilderUtil {
             }
         }
     }
+    public static ScopedEnvironment buildLocalEnvironment(MainClass mainClassDeclaration, Environment env)
+    {
+        GlobalEnvironment g_env = (GlobalEnvironment) env;
+        String class_name    = mainClassDeclaration.identifier.nodeToken.toString();
+        ClassType main_class = g_env.getClass(class_name);
+        MethodType main_method = main_class.getMethod("main");
+        ScopedEnvironment curr_env = new ScopedEnvironment(g_env, main_method);
+        // add variables declared in main function
+        getVariableList(mainClassDeclaration.nodeListOptional.nodes, curr_env.getLocalVariables(), g_env);
+        // add parameters to local variables
+        LinkedList<VarType> parameterList = main_method.getParameterList();
+        if (null != parameterList) {
+            for( VarType v : parameterList)
+            {
+                curr_env.addLocalVariable(v);
+            }
+        }
+        return curr_env;
+    }
+
 
     public static ScopedEnvironment buildLocalEnvironment(ClassDeclaration classDeclaration, Environment env)
     {

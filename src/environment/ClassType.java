@@ -1,11 +1,11 @@
 package environment;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ClassType extends ScopedType {
-    private Set<ClassType> m_superClasses;
+    private LinkedHashSet<ClassType> m_superClasses;
     private Environment<MethodType> m_methods;
     private Environment<VarType> m_instanceVars;
 
@@ -23,7 +23,7 @@ public class ClassType extends ScopedType {
 
     public void addSuperClass(ClassType t) {
         if (null == m_superClasses) {
-            m_superClasses = new HashSet<ClassType>();
+            m_superClasses = new LinkedHashSet<ClassType>();
         }
         m_superClasses.add(t);
     }
@@ -35,6 +35,7 @@ public class ClassType extends ScopedType {
 
     public boolean subtype(Type rhs)
     {
+
         if (rhs.equals(this))
         {
             return true;

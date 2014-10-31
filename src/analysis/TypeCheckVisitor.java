@@ -13,14 +13,24 @@ import java.util.LinkedList;
  */
 public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment> {
 
+    public Type visit(MainClass m, Environment env)
+    {
+        Environment curr_env =  EnvironmentBuilderUtil.buildLocalEnvironment(m, env);
+        Type rval;
+        m.nodeListOptional.accept(this, curr_env);
+        rval = m.nodeListOptional1.accept(this, curr_env);
+
+        /* null is used for statements which have no value */
+        return rval;
+    }
+
     public Type visit(ClassDeclaration d, Environment env)
     {
         Environment curr_env =  EnvironmentBuilderUtil.buildLocalEnvironment(d, env);
         Type rval;
-        rval = d.nodeListOptional.accept(this, curr_env);
+        d.nodeListOptional.accept(this, curr_env);
         rval = d.nodeListOptional1.accept(this, curr_env);
 
-        /* null is used for statements which have no value */
         return rval;
     }
 
@@ -204,7 +214,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
             TypeError.close("Type mismatch");
         }
 
-        if (!lhs_type.subtype(rhs_type))
+        if (!rhs_type.subtype(lhs_type))
         {
             TypeError.close("Type mismatch" + lhs_type.typeName() + ", " + rhs_type.typeName());
         }

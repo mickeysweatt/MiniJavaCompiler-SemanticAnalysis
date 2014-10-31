@@ -1,33 +1,40 @@
-class Factorial{
-    public static void main(String[] a){
-        System.out.println(1);
-    }
+class Main{
+    public static void main( String []arg)
+    {
+        A b;
+        A a;
+        b = new B();
+        a = new A();
+        if((b.bar()) && (a.bar()))
+            System.out.println(1);
+        else
+        {
 
+        }
+    }
 }
 
 class A {
-    public int a()
+    int x;
+    public int foo() {
+        return x;
+    }
+
+    public boolean bar()
     {
-        return 1;
+        return false;
     }
 }
 
-class B extends A {
-    public int b()
-    {
-        return 2;
+class B extends A{
+    boolean x;
+    public boolean bar()  {
+        return x;
     }
-}
 
-class C extends B
-{
-    public int b()
+    public int foo1()
     {
-        return 3;
+        return this.foo();
     }
-}
 
-class D
-{
-    public int d() { return 4;}
 }

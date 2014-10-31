@@ -17,10 +17,9 @@ import java.io.FileNotFoundException;
 
 public class TypeCheck {
     public static void main(String[] Args) {
-        File testDir = new File("tests/");
+        File testDir = new File("tests");
         MiniJavaParser parse = null;
         for (final File fileEntry : testDir.listFiles()) {
-//            File fileEntry = new File("tests/LinearSearch.java");
             if (fileEntry.isFile()) {
                 FileInputStream in = null;
                 try {
@@ -46,9 +45,13 @@ public class TypeCheck {
                     EnvironmentBuilderUtil.flattenSubtyping(env);
 
                     // then type check
-                    TypeCheckVisitor v = new TypeCheckVisitor();
-                    g.accept(v, env);
-                    System.out.println("Type checks");
+                    try {
+                        TypeCheckVisitor v = new TypeCheckVisitor();
+                        g.accept(v, env);
+                        System.out.println("Type checks\n");
+                    } catch (Exception err) {
+                        continue;
+                    }
                 }
                 catch (ParseException e) {
                     System.out.println(e.toString());

@@ -4,11 +4,7 @@ import analysis.TypeError;
 import syntaxtree.*;
 import visitor.GJDepthFirst;
 
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Vector;
-
-import static analysis.TypeError.*;
+import static analysis.TypeError.close;
 
 
 /**
@@ -32,7 +28,10 @@ public class EnvironmentBuilderVisitor extends GJDepthFirst<Object, GlobalEnviro
         String mainClassName = EnvironmentUtil.identifierToString(m.identifier);
         String argsName = EnvironmentUtil.identifierToString(m.identifier1);
         ClassType main = env.getClass(mainClassName);
-        main.addInstanceVar(new VarType(null, argsName, main));
+        MethodType mainMethod = new MethodType("main", null, main, null);
+        mainMethod.addParameter(new VarType(null, argsName, main));
+        main.addMethod(mainMethod);
+
         m_currentClass = main;
         super.visit(m, env);
         return null;
