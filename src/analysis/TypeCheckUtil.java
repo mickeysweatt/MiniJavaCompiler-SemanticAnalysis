@@ -1,25 +1,28 @@
 package analysis;
 
 import environment.Environment;
-import environment.PrimitiveType;
 import environment.Type;
 import syntaxtree.*;
 
 import java.util.LinkedList;
-import java.util.List;
 
-import static analysis.TypeError.*;
+import static analysis.TypeError.close;
 
 /**
  * Created by michael on 10/26/14.
  */
 public class TypeCheckUtil {
+    // This class acts as a Utility class for type checking a MiniJava Program.
 
     static void TypeCheckBinaryArithLogExpression(TypeCheckVisitor  v,
                                                   Environment       env,
                                                   PrimaryExpression lhs,
                                                   PrimaryExpression rhs,
                                                   Type expectedArgType)
+    // This method performs type checking for an arbitrary binary expression. This method is successful if the type
+    // of specified 'lhs' and 'rhs' expression match the specified 'expectedArgType' and are equal. Otherwise this
+    // method calls close().
+    //
     {
         Type lhs_type = lhs.accept(v, env);
         Type rhs_type = rhs.accept(v, env);
@@ -27,15 +30,16 @@ public class TypeCheckUtil {
         {
             close("Expression expects 2 ints");
         }
-        return;
     }
 
     static LinkedList<Type> getArgumentTypes(Node curr, Environment env)
+    // This method take a parameter list and converts it to an equivalent LinkedList of 'VarTypes' maintaining the order
+    // of the declarations. The behavior is undefined unless curr references a argument list.
     {
-        Expression       curr_node = null;   // reference to head of list (if any)
-        ExpressionList   arg_list  = null;  // the arg_list starting at this point (if any)
-        NodeListOptional rest      = null;  // a reference to the rest of the list (if any)
-        LinkedList<Type> types     = null;  // the types for the remaining parameters
+        Expression       curr_node;  // reference to head of list (if any)
+        ExpressionList   arg_list;   // the arg_list starting at this point (if any)
+        NodeListOptional rest;       // a reference to the rest of the list (if any)
+        LinkedList<Type> types;      // the types for the remaining parameters
         // no more parameters
         if (curr == null)
         {

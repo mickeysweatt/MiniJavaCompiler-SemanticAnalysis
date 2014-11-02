@@ -60,6 +60,36 @@ public class TypeCheck {
         }
     }
 }
+/*
+
+
+public class TypeCheck {
+    public static void main(String[] Args) {
+        try {
+            MiniJavaParser parse = new MiniJavaParser(System.in);
+            Goal g = MiniJavaParser.Goal();
+            // First build up the environment (All classes, methods, and parameters for each method)
+            EnvironmentBuilderVisitor e = new EnvironmentBuilderVisitor();
+            GlobalEnvironment env = new GlobalEnvironment();
+            g.accept(e, env);
+
+            // Next fill in all the sub-typing and inheritance information
+            EnvironmentBuilderUtil.flattenSubtyping(env);
+
+            // then type check
+            TypeCheckVisitor v = new TypeCheckVisitor();
+            g.accept(v, env);
+            System.out.println("Type checks\n");
+        } catch (ParseException e) {
+            System.out.println(e.toString());
+        }
+    }
+}
+
+
+
+
+ */
 
 
 

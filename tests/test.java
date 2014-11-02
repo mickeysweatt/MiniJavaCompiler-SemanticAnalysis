@@ -3,14 +3,6 @@ class Main{
     {
         A b;
         A a;
-        b = new B();
-        a = new A();
-        if((b.bar()) && (a.bar()))
-            System.out.println(1);
-        else
-        {
-
-        }
     }
 }
 
@@ -31,10 +23,11 @@ class B extends A{
     public boolean bar()  {
         return x;
     }
+}
 
-    public int foo1()
+class foo {
+    public A bar()
     {
-        return this.foo();
+        return new B();
     }
-
 }

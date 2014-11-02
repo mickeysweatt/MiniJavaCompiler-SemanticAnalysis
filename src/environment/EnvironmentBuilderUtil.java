@@ -78,9 +78,16 @@ public class EnvironmentBuilderUtil {
                                 TypeError.close("No overloading allowed");
                             }
                         }
-                        if (!superclass_params.equals(subclass_params) || !subclass_retVal.equals(superclass_retVal))
+                        Iterator<VarType> superclass_paramIter = superclass_params.iterator();
+                        Iterator<VarType> subclass_paramIter   = subclass_params.iterator();
+                        while (subclass_paramIter.hasNext() && superclass_paramIter.hasNext())
                         {
-                            TypeError.close("No overloading allowed");
+                            VarType super_param = superclass_paramIter.next();
+                            VarType sub_param   = subclass_paramIter.next();
+                            if (!sub_param.typeName().equals(super_param.typeName()))
+                            {
+                                TypeError.close("No overloading allowed");
+                            }
                         }
                     }
                     // if this is just inherited, put it into scope
@@ -150,6 +157,12 @@ public class EnvironmentBuilderUtil {
             MethodType method;
             method = new MethodType(method_name, returnType, curr_class, null);
             getVariableList(m.nodeOptional.node, method, env);
+            HashSet<VarType> localVars = method.getLocalVars();
+            if (null == localVars)
+            {
+                localVars = new HashSet<VarType>();
+            }
+            getVariableList(m.nodeListOptional.nodes, localVars, env);
             curr_class.addMethod(method);
         }
         return true;
@@ -185,6 +198,25 @@ public class EnvironmentBuilderUtil {
         }
     }
 
+    public static void getVariableList(Vector<Node> variableDecls, Collection<VarType> localVars, GlobalEnvironment env)
+    {
+        for (Node node : variableDecls)
+        {
+            VarDeclaration decl = (VarDeclaration) node;
+            Type varType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(decl.type.nodeChoice.choice, env);
+            String varName = decl.identifier.nodeToken.toString();
+            VarType vt = new VarType(varType, varName, null);
+            if (null == localVars || !localVars.contains(vt))
+            {
+                localVars.add(vt);
+            }
+            else
+            {
+                close("Redeclaring parameter");
+            }
+        }
+    }
+
     public static void getVariableList(Vector<Node> variableDecls, Environment localVars, GlobalEnvironment env)
     {
         for (Node node : variableDecls)
@@ -203,6 +235,7 @@ public class EnvironmentBuilderUtil {
             }
         }
     }
+
     public static ScopedEnvironment buildLocalEnvironment(MainClass mainClassDeclaration, Environment env)
     {
         GlobalEnvironment g_env = (GlobalEnvironment) env;

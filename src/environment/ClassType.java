@@ -6,8 +6,8 @@ import java.util.Set;
 
 public class ClassType extends ScopedType {
     private LinkedHashSet<ClassType> m_superClasses;
-    private Environment<MethodType> m_methods;
-    private Environment<VarType> m_instanceVars;
+    private Environment<MethodType>  m_methods;
+    private Environment<VarType>     m_instanceVars;
 
     public String toString()
     {
@@ -35,16 +35,11 @@ public class ClassType extends ScopedType {
 
     public boolean subtype(Type rhs)
     {
-
-        if (rhs.equals(this))
-        {
-            return true;
-        }
-        return m_superClasses.contains(rhs);
+        return rhs.equals(this) || m_superClasses.contains(rhs);
     }
 
     public void addMethod(MethodType m) {
-        m_methods.addEntry(m);
+        m_methods.addEntry(m.methodName(), m);
     }
 
     public MethodType getMethod(String method_name)  {
@@ -53,7 +48,9 @@ public class ClassType extends ScopedType {
 
     public Collection<MethodType> getMethods()
     {
-        return m_methods.getEntries().values();
+        return null == m_methods ? null :
+               null == m_methods.getEntries()?  null :
+               m_methods.getEntries().values();
     }
 
     public boolean containsMethod(String method_name) {

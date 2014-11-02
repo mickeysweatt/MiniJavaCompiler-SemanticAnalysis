@@ -37,6 +37,14 @@ public class Environment<ENTITY_TYPE> {
         m_entries.put(c.toString(), c);
     }
 
+    public void addEntry(String entry_name, ENTITY_TYPE c)
+    {
+        if (null == m_entries) {
+            m_entries = new HashMap<String, ENTITY_TYPE>();
+        }
+        m_entries.put(entry_name, c);
+    }
+
     public boolean containsEntry(String entry_name)
     {
         return null != getEntry(entry_name);

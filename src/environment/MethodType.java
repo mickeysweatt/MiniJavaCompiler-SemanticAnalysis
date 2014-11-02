@@ -1,5 +1,6 @@
 package environment;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
@@ -8,6 +9,7 @@ import java.util.LinkedList;
 public class MethodType extends ScopedType {
     private Type                m_returnType;
     private LinkedList<VarType> m_parameters;
+    private HashSet<VarType> m_localVars;
 
     public  MethodType(String name, Type returnType, ClassType scope, LinkedList<VarType> parameters)
     {
@@ -18,11 +20,27 @@ public class MethodType extends ScopedType {
 
     public void addParameter(VarType parameter)
     {
+        addLocalVar(parameter);
         if (m_parameters == null)
         {
             m_parameters = new LinkedList<VarType>();
         }
         m_parameters.add(parameter);
+
+    }
+
+    public void addLocalVar(VarType localVar)
+    {
+        if (null == m_localVars)
+        {
+            m_localVars = new HashSet<VarType>();
+        }
+        m_localVars.add(localVar);
+    }
+
+    public HashSet<VarType> getLocalVars()
+    {
+        return m_localVars;
     }
 
     public boolean containsParameter(VarType parameter)
@@ -37,6 +55,20 @@ public class MethodType extends ScopedType {
 
     public String methodName() { return typeName(); }
 
+    public String typeName() {
+        return super.typeName();
+    }
+
+    public String toString()
+    {
+        String rval = "";
+        if (getScope() != null)
+        {
+            rval += getScope().typeName() + "::";
+        }
+        rval += super.typeName();
+        return rval;
+    }
 
     public LinkedList<VarType> getParameterList()
     {
