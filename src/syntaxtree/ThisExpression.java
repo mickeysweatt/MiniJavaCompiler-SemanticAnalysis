@@ -6,17 +6,17 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "this"
+ * f0 -> "this"
  */
 public class ThisExpression implements Node {
-   public NodeToken nodeToken;
+   public NodeToken f0;
 
    public ThisExpression(NodeToken n0) {
-      nodeToken = n0;
+      f0 = n0;
    }
 
    public ThisExpression() {
-      nodeToken = new NodeToken("this");
+      f0 = new NodeToken("this");
    }
 
    public void accept(visitor.Visitor v) {

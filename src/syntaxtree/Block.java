@@ -6,25 +6,25 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "{"
- * nodeListOptional -> ( Statement() )*
- * nodeToken1 -> "}"
+ * f0 -> "{"
+ * f1 -> ( Statement() )*
+ * f2 -> "}"
  */
 public class Block implements Node {
-   public NodeToken nodeToken;
-   public NodeListOptional nodeListOptional;
-   public NodeToken nodeToken1;
+   public NodeToken f0;
+   public NodeListOptional f1;
+   public NodeToken f2;
 
    public Block(NodeToken n0, NodeListOptional n1, NodeToken n2) {
-      nodeToken = n0;
-      nodeListOptional = n1;
-      nodeToken1 = n2;
+      f0 = n0;
+      f1 = n1;
+      f2 = n2;
    }
 
    public Block(NodeListOptional n0) {
-      nodeToken = new NodeToken("{");
-      nodeListOptional = n0;
-      nodeToken1 = new NodeToken("}");
+      f0 = new NodeToken("{");
+      f1 = n0;
+      f2 = new NodeToken("}");
    }
 
    public void accept(visitor.Visitor v) {

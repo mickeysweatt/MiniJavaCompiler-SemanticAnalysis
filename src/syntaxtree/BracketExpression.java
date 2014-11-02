@@ -6,25 +6,25 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "("
- * expression -> Expression()
- * nodeToken1 -> ")"
+ * f0 -> "("
+ * f1 -> Expression()
+ * f2 -> ")"
  */
 public class BracketExpression implements Node {
-   public NodeToken nodeToken;
-   public Expression expression;
-   public NodeToken nodeToken1;
+   public NodeToken f0;
+   public Expression f1;
+   public NodeToken f2;
 
    public BracketExpression(NodeToken n0, Expression n1, NodeToken n2) {
-      nodeToken = n0;
-      expression = n1;
-      nodeToken1 = n2;
+      f0 = n0;
+      f1 = n1;
+      f2 = n2;
    }
 
    public BracketExpression(Expression n0) {
-      nodeToken = new NodeToken("(");
-      expression = n0;
-      nodeToken1 = new NodeToken(")");
+      f0 = new NodeToken("(");
+      f1 = n0;
+      f2 = new NodeToken(")");
    }
 
    public void accept(visitor.Visitor v) {

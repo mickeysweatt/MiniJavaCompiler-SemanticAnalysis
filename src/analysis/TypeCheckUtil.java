@@ -8,14 +8,13 @@ import java.util.LinkedList;
 
 import static analysis.TypeError.close;
 
-/**
- * Created by michael on 10/26/14.
- */
+/* Author: Mickey Sweatt
+        */
 public class TypeCheckUtil {
     // This class acts as a Utility class for type checking a MiniJava Program.
 
-    static void TypeCheckBinaryArithLogExpression(TypeCheckVisitor  v,
-                                                  Environment       env,
+    static void TypeCheckBinaryArithLogExpression(TypeCheckVisitor v,
+                                                  Environment env,
                                                   PrimaryExpression lhs,
                                                   PrimaryExpression rhs,
                                                   Type expectedArgType)
@@ -26,8 +25,7 @@ public class TypeCheckUtil {
     {
         Type lhs_type = lhs.accept(v, env);
         Type rhs_type = rhs.accept(v, env);
-        if (expectedArgType !=  lhs_type || expectedArgType != rhs_type)
-        {
+        if (expectedArgType != lhs_type || expectedArgType != rhs_type) {
             close("Expression expects 2 ints");
         }
     }
@@ -36,21 +34,17 @@ public class TypeCheckUtil {
     // This method take a parameter list and converts it to an equivalent LinkedList of 'VarTypes' maintaining the order
     // of the declarations. The behavior is undefined unless curr references a argument list.
     {
-        Expression       curr_node;  // reference to head of list (if any)
-        ExpressionList   arg_list;   // the arg_list starting at this point (if any)
+        Expression curr_node;  // reference to head of list (if any)
+        ExpressionList arg_list;   // the arg_list starting at this point (if any)
         NodeListOptional rest;       // a reference to the rest of the list (if any)
         LinkedList<Type> types;      // the types for the remaining parameters
         // no more parameters
-        if (curr == null)
-        {
+        if (curr == null) {
             return null;
-        }
-
-        else
-        {
+        } else {
             arg_list = (ExpressionList) curr;
-            curr_node = arg_list.expression;
-            rest = arg_list.nodeListOptional;
+            curr_node = arg_list.f0;
+            rest = arg_list.f1;
 
             TypeCheckVisitor v = new TypeCheckVisitor();
             types = new LinkedList<Type>();
@@ -59,9 +53,8 @@ public class TypeCheckUtil {
             types.add(v.visit(curr_node, env));
 
             // type check the rest
-            for (Node n : rest.nodes)
-            {
-                Expression next = ((ExpressionRest)n).expression;
+            for (Node n : rest.nodes) {
+                Expression next = ((ExpressionRest) n).f1;
                 types.add(v.visit(next, env));
             }
 

@@ -6,7 +6,7 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeChoice -> IntegerLiteral()
+ * f0 -> IntegerLiteral()
  *       | TrueLiteral()
  *       | FalseLiteral()
  *       | Identifier()
@@ -17,10 +17,10 @@ package syntaxtree;
  *       | BracketExpression()
  */
 public class PrimaryExpression implements Node {
-   public NodeChoice nodeChoice;
+   public NodeChoice f0;
 
    public PrimaryExpression(NodeChoice n0) {
-      nodeChoice = n0;
+      f0 = n0;
    }
 
    public void accept(visitor.Visitor v) {

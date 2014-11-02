@@ -19,7 +19,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         Environment curr_env =  EnvironmentBuilderUtil.buildLocalEnvironment(m, env);
         Type rval;
         //m.nodeListOptional.accept(this, curr_env);
-        rval = m.nodeListOptional1.accept(this, curr_env);
+        rval = m.f15.accept(this, curr_env);
 
         /* null is used for statements which have no value */
         return rval;
@@ -30,7 +30,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     {
         Environment curr_env =  EnvironmentBuilderUtil.buildLocalEnvironment(d, env);
         Type rval;
-        rval = d.nodeListOptional1.accept(this, curr_env);
+        rval = d.f4.accept(this, curr_env);
 
         return rval;
     }
@@ -38,12 +38,12 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     public Type visit(ClassExtendsDeclaration d, Environment env)
     {
         Environment curr_env =  EnvironmentBuilderUtil.buildLocalEnvironment(d, env);
-        Type rval;
-        rval = d.nodeListOptional.accept(this, curr_env);
-        rval = d.nodeListOptional1.accept(this, curr_env);
+
+        d.f5.accept(this, curr_env);
+        d.f6.accept(this, curr_env);
 
         /* null is used for statements which have no value */
-        return rval;
+        return null;
     }
 
     public Type visit(MethodDeclaration m, Environment env)
@@ -51,10 +51,10 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         ScopedEnvironment curr_env = EnvironmentBuilderUtil.buildLocalEnvironment(m, env);
         MethodType curr_method = (MethodType) curr_env.getScope();
 
-        m.type.accept(this, curr_env.getGlobalEnvironment());
+        m.f1.accept(this, curr_env.getGlobalEnvironment());
         //m.nodeOptional.accept(this, curr_env);
-        m.nodeListOptional1.accept(this, curr_env);
-        Type returnType =  m.expression.accept(this, curr_env);
+        m.f8.accept(this, curr_env);
+        Type returnType = m.f10.accept(this, curr_env);
 
         if (null == curr_method || !returnType.subtype(curr_method.getReturnType()))
         {
@@ -92,16 +92,16 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     public Type visit(MessageSend ms, Environment env)
     {
         // lhs must be a class
-        Type lhs_type = ms.primaryExpression.accept(this, env);
+        Type lhs_type = ms.f0.accept(this, env);
         Type rval = null;
         if (null != lhs_type && lhs_type instanceof  ClassType) {
             // rhs must be a member of that class
-            String method_name = EnvironmentUtil.identifierToString(ms.identifier);
+            String method_name = EnvironmentUtil.identifierToString(ms.f2);
             MethodType rhs =  ((ClassType) lhs_type).getMethod(method_name);
             if (null != rhs)
             {
                 // check all the parameters.
-                LinkedList<Type>    passed_parameters = TypeCheckUtil.getArgumentTypes(ms.nodeOptional.node, env);
+                LinkedList<Type> passed_parameters = TypeCheckUtil.getArgumentTypes(ms.f4.node, env);
                 LinkedList<VarType> method_parameters = rhs.getParameterList();
                 if (null == passed_parameters)
                 {
@@ -145,7 +145,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     // Expressions
     public Type visit(Expression e, Environment env)
     {
-        return e.nodeChoice.accept(this, env);
+        return e.f0.accept(this, env);
     }
 
     public Type visit(MinusExpression e, Environment env)
@@ -153,8 +153,8 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         // get type of both sides
         TypeCheckUtil.TypeCheckBinaryArithLogExpression(this,
                 env,
-                e.primaryExpression,
-                e.primaryExpression1,
+                e.f0,
+                e.f2,
                 PrimitiveType.INT_TYPE);
         return PrimitiveType.INT_TYPE;
     }
@@ -164,8 +164,8 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         // get type of both sides
         TypeCheckUtil.TypeCheckBinaryArithLogExpression(this,
                 env,
-                e.primaryExpression,
-                e.primaryExpression1,
+                e.f0,
+                e.f2,
                 PrimitiveType.INT_TYPE);
         return PrimitiveType.INT_TYPE;
     }
@@ -175,8 +175,8 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         // get type of both sides
         TypeCheckUtil.TypeCheckBinaryArithLogExpression(this,
                                                          env,
-                                                         e.primaryExpression,
-                                                         e.primaryExpression1,
+                e.f0,
+                e.f2,
                                                          PrimitiveType.INT_TYPE);
         return PrimitiveType.INT_TYPE;
     }
@@ -186,8 +186,8 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         // get type of both sides
         TypeCheckUtil.TypeCheckBinaryArithLogExpression(this,
                 env,
-                e.primaryExpression,
-                e.primaryExpression1,
+                e.f0,
+                e.f2,
                 PrimitiveType.BOOL_TYPE);
         return PrimitiveType.BOOL_TYPE;
     }
@@ -197,15 +197,15 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
         // get type of both sides
         TypeCheckUtil.TypeCheckBinaryArithLogExpression(this,
                 env,
-                e.primaryExpression,
-                e.primaryExpression1,
+                e.f0,
+                e.f2,
                 PrimitiveType.INT_TYPE);
         return PrimitiveType.BOOL_TYPE;
     }
 
     public Type visit(NotExpression n, Environment env)
     {
-        Type op_type = n.expression.accept(this, env);
+        Type op_type = n.f1.accept(this, env);
         if (op_type == null || !op_type.equals(PrimitiveType.BOOL_TYPE))
         {
             TypeError.close("! expression applied to non-bool");
@@ -222,7 +222,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     }
 
     public Type visit (AllocationExpression alloc, Environment env) {
-        String class_name = EnvironmentUtil.identifierToString(alloc.identifier);
+        String class_name = EnvironmentUtil.identifierToString(alloc.f1);
         // make sure the RHS is valid class name
         ClassType rhs = env.getGlobalEnvironment().getClass(class_name);
         if (null == rhs) {
@@ -235,14 +235,14 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     public Type visit(AssignmentStatement a, Environment env)
     {
 
-        Type lhs_type = a.identifier.accept(this, env);
-        Type rhs_type = a.expression.accept(this, env);
+        Type lhs_type = a.f0.accept(this, env);
+        Type rhs_type = a.f2.accept(this, env);
 
         if (null == lhs_type || null == rhs_type)
         {
             if (null== lhs_type)
             {
-                TypeError.close("Undeclared identifier " + EnvironmentUtil.identifierToString(a.identifier));
+                TypeError.close("Undeclared identifier " + EnvironmentUtil.identifierToString(a.f0));
             }
             if (null== rhs_type)
             {
@@ -260,32 +260,32 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
     public Type visit(WhileStatement w, Environment env)
     {
-        Type cond_type = w.expression.accept(this, env);
+        Type cond_type = w.f2.accept(this, env);
         if (cond_type != PrimitiveType.BOOL_TYPE)
         {
             TypeError.close("While loop condition must be of type bool");
         }
         // type check the rest
-        w.statement.accept(this, env);
+        w.f4.accept(this, env);
         return null;
     }
 
     public Type visit(IfStatement i, Environment env)
     {
-        Type cond_type = i.expression.accept(this, env);
+        Type cond_type = i.f2.accept(this, env);
         if (cond_type != PrimitiveType.BOOL_TYPE)
         {
             TypeError.close("if condition must be of type bool");
         }
         // type check the rest
-        i.statement.accept(this, env);
-        i.statement1.accept(this, env);
+        i.f4.accept(this, env);
+        i.f6.accept(this, env);
         return null;
     }
 
     public Type visit(PrintStatement p, Environment env)
     {
-        if (PrimitiveType.INT_TYPE !=  p.expression.accept(this, env))
+        if (PrimitiveType.INT_TYPE != p.f2.accept(this, env))
         {
             analysis.TypeError.close("println expects parameter type 'int'");
         }
@@ -296,8 +296,8 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
     public Type visit(ArrayAssignmentStatement a, Environment env)
     {
-        Type index_type = a.expression.accept(this, env);
-        Type rhs_type   = a.expression1.accept(this, env);
+        Type index_type = a.f2.accept(this, env);
+        Type rhs_type = a.f5.accept(this, env);
         if (null == index_type || !index_type.equals(PrimitiveType.INT_TYPE) || !rhs_type.equals(PrimitiveType.INT_TYPE))
         {
             TypeError.close("Array assignemtn malformed");
@@ -307,7 +307,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
     public Type visit(ArrayAllocationExpression e, Environment env)
     {
-        Type len_type = e.expression.accept(this, env);
+        Type len_type = e.f3.accept(this, env);
         if (PrimitiveType.INT_TYPE != len_type)
         {
             TypeError.close("Array allocation requires int");
@@ -317,7 +317,7 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
     public Type visit(ArrayLength l, Environment env)
     {
-        Type lhs_type = l.primaryExpression.accept(this, env);
+        Type lhs_type = l.f0.accept(this, env);
         if (null == lhs_type || !(lhs_type instanceof IntArrayType))
         {
             TypeError.close("Calling array length on not an array");
@@ -327,8 +327,8 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
 
     public Type visit(ArrayLookup l, Environment env)
     {
-        Type array_type = l.primaryExpression.accept(this, env);
-        Type index_type = l.primaryExpression1.accept(this, env);
+        Type array_type = l.f0.accept(this, env);
+        Type index_type = l.f2.accept(this, env);
         if ((null == array_type || null == index_type) ||
             !(array_type instanceof IntArrayType) || null == index_type || !index_type.subtype(PrimitiveType.INT_TYPE))
         {
@@ -351,6 +351,16 @@ public class TypeCheckVisitor extends GJDepthFirst<environment.Type, Environment
     public Type visit(FalseLiteral l, Environment env)
     {
         return PrimitiveType.BOOL_TYPE;
+    }
+
+
+    // Procedural Pass Throughs
+    public Type visit(PrimaryExpression p, Environment env) {
+        return p.f0.accept(this, env);
+    }
+
+    public Type visit(BracketExpression n, Environment env) {
+        return n.f1.accept(this, env);
     }
 
 

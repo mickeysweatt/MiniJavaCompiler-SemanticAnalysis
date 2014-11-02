@@ -6,17 +6,17 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "int"
+ * f0 -> "int"
  */
 public class IntegerType implements Node {
-   public NodeToken nodeToken;
+   public NodeToken f0;
 
    public IntegerType(NodeToken n0) {
-      nodeToken = n0;
+      f0 = n0;
    }
 
    public IntegerType() {
-      nodeToken = new NodeToken("int");
+      f0 = new NodeToken("int");
    }
 
    public void accept(visitor.Visitor v) {

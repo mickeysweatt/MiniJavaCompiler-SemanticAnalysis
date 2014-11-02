@@ -6,29 +6,29 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * identifier -> Identifier()
- * nodeToken -> "="
- * expression -> Expression()
- * nodeToken1 -> ";"
+ * f0 -> Identifier()
+ * f1 -> "="
+ * f2 -> Expression()
+ * f3 -> ";"
  */
 public class AssignmentStatement implements Node {
-   public Identifier identifier;
-   public NodeToken nodeToken;
-   public Expression expression;
-   public NodeToken nodeToken1;
+   public Identifier f0;
+   public NodeToken f1;
+   public Expression f2;
+   public NodeToken f3;
 
    public AssignmentStatement(Identifier n0, NodeToken n1, Expression n2, NodeToken n3) {
-      identifier = n0;
-      nodeToken = n1;
-      expression = n2;
-      nodeToken1 = n3;
+      f0 = n0;
+      f1 = n1;
+      f2 = n2;
+      f3 = n3;
    }
 
    public AssignmentStatement(Identifier n0, Expression n1) {
-      identifier = n0;
-      nodeToken = new NodeToken("=");
-      expression = n1;
-      nodeToken1 = new NodeToken(";");
+      f0 = n0;
+      f1 = new NodeToken("=");
+      f2 = n1;
+      f3 = new NodeToken(";");
    }
 
    public void accept(visitor.Visitor v) {

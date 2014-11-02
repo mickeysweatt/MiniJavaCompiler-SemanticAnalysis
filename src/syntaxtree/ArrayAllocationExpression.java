@@ -6,33 +6,33 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "new"
- * nodeToken1 -> "int"
- * nodeToken2 -> "["
- * expression -> Expression()
- * nodeToken3 -> "]"
+ * f0 -> "new"
+ * f1 -> "int"
+ * f2 -> "["
+ * f3 -> Expression()
+ * f4 -> "]"
  */
 public class ArrayAllocationExpression implements Node {
-   public NodeToken nodeToken;
-   public NodeToken nodeToken1;
-   public NodeToken nodeToken2;
-   public Expression expression;
-   public NodeToken nodeToken3;
+   public NodeToken f0;
+   public NodeToken f1;
+   public NodeToken f2;
+   public Expression f3;
+   public NodeToken f4;
 
    public ArrayAllocationExpression(NodeToken n0, NodeToken n1, NodeToken n2, Expression n3, NodeToken n4) {
-      nodeToken = n0;
-      nodeToken1 = n1;
-      nodeToken2 = n2;
-      expression = n3;
-      nodeToken3 = n4;
+      f0 = n0;
+      f1 = n1;
+      f2 = n2;
+      f3 = n3;
+      f4 = n4;
    }
 
    public ArrayAllocationExpression(Expression n0) {
-      nodeToken = new NodeToken("new");
-      nodeToken1 = new NodeToken("int");
-      nodeToken2 = new NodeToken("[");
-      expression = n0;
-      nodeToken3 = new NodeToken("]");
+      f0 = new NodeToken("new");
+      f1 = new NodeToken("int");
+      f2 = new NodeToken("[");
+      f3 = n0;
+      f4 = new NodeToken("]");
    }
 
    public void accept(visitor.Visitor v) {

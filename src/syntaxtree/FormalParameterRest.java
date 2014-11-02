@@ -6,21 +6,21 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> ","
- * formalParameter -> FormalParameter()
+ * f0 -> ","
+ * f1 -> FormalParameter()
  */
 public class FormalParameterRest implements Node {
-   public NodeToken nodeToken;
-   public FormalParameter formalParameter;
+   public NodeToken f0;
+   public FormalParameter f1;
 
    public FormalParameterRest(NodeToken n0, FormalParameter n1) {
-      nodeToken = n0;
-      formalParameter = n1;
+      f0 = n0;
+      f1 = n1;
    }
 
    public FormalParameterRest(FormalParameter n0) {
-      nodeToken = new NodeToken(",");
-      formalParameter = n0;
+      f0 = new NodeToken(",");
+      f1 = n0;
    }
 
    public void accept(visitor.Visitor v) {

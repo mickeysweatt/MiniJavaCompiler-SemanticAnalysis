@@ -6,37 +6,37 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "class"
- * identifier -> Identifier()
- * nodeToken1 -> "{"
- * nodeListOptional -> ( VarDeclaration() )*
- * nodeListOptional1 -> ( MethodDeclaration() )*
- * nodeToken2 -> "}"
+ * f0 -> "class"
+ * f1 -> Identifier()
+ * f2 -> "{"
+ * f3 -> ( VarDeclaration() )*
+ * f4 -> ( MethodDeclaration() )*
+ * f5 -> "}"
  */
 public class ClassDeclaration implements Node {
-   public NodeToken nodeToken;
-   public Identifier identifier;
-   public NodeToken nodeToken1;
-   public NodeListOptional nodeListOptional;
-   public NodeListOptional nodeListOptional1;
-   public NodeToken nodeToken2;
+   public NodeToken f0;
+   public Identifier f1;
+   public NodeToken f2;
+   public NodeListOptional f3;
+   public NodeListOptional f4;
+   public NodeToken f5;
 
    public ClassDeclaration(NodeToken n0, Identifier n1, NodeToken n2, NodeListOptional n3, NodeListOptional n4, NodeToken n5) {
-      nodeToken = n0;
-      identifier = n1;
-      nodeToken1 = n2;
-      nodeListOptional = n3;
-      nodeListOptional1 = n4;
-      nodeToken2 = n5;
+      f0 = n0;
+      f1 = n1;
+      f2 = n2;
+      f3 = n3;
+      f4 = n4;
+      f5 = n5;
    }
 
    public ClassDeclaration(Identifier n0, NodeListOptional n1, NodeListOptional n2) {
-      nodeToken = new NodeToken("class");
-      identifier = n0;
-      nodeToken1 = new NodeToken("{");
-      nodeListOptional = n1;
-      nodeListOptional1 = n2;
-      nodeToken2 = new NodeToken("}");
+      f0 = new NodeToken("class");
+      f1 = n0;
+      f2 = new NodeToken("{");
+      f3 = n1;
+      f4 = n2;
+      f5 = new NodeToken("}");
    }
 
    public void accept(visitor.Visitor v) {

@@ -6,33 +6,33 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "while"
- * nodeToken1 -> "("
- * expression -> Expression()
- * nodeToken2 -> ")"
- * statement -> Statement()
+ * f0 -> "while"
+ * f1 -> "("
+ * f2 -> Expression()
+ * f3 -> ")"
+ * f4 -> Statement()
  */
 public class WhileStatement implements Node {
-   public NodeToken nodeToken;
-   public NodeToken nodeToken1;
-   public Expression expression;
-   public NodeToken nodeToken2;
-   public Statement statement;
+   public NodeToken f0;
+   public NodeToken f1;
+   public Expression f2;
+   public NodeToken f3;
+   public Statement f4;
 
    public WhileStatement(NodeToken n0, NodeToken n1, Expression n2, NodeToken n3, Statement n4) {
-      nodeToken = n0;
-      nodeToken1 = n1;
-      expression = n2;
-      nodeToken2 = n3;
-      statement = n4;
+      f0 = n0;
+      f1 = n1;
+      f2 = n2;
+      f3 = n3;
+      f4 = n4;
    }
 
    public WhileStatement(Expression n0, Statement n1) {
-      nodeToken = new NodeToken("while");
-      nodeToken1 = new NodeToken("(");
-      expression = n0;
-      nodeToken2 = new NodeToken(")");
-      statement = n1;
+      f0 = new NodeToken("while");
+      f1 = new NodeToken("(");
+      f2 = n0;
+      f3 = new NodeToken(")");
+      f4 = n1;
    }
 
    public void accept(visitor.Visitor v) {

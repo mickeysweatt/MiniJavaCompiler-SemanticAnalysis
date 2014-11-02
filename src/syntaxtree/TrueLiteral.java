@@ -6,17 +6,17 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "true"
+ * f0 -> "true"
  */
 public class TrueLiteral implements Node {
-   public NodeToken nodeToken;
+   public NodeToken f0;
 
    public TrueLiteral(NodeToken n0) {
-      nodeToken = n0;
+      f0 = n0;
    }
 
    public TrueLiteral() {
-      nodeToken = new NodeToken("true");
+      f0 = new NodeToken("true");
    }
 
    public void accept(visitor.Visitor v) {

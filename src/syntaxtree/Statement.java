@@ -6,7 +6,7 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeChoice -> Block()
+ * f0 -> Block()
  *       | AssignmentStatement()
  *       | ArrayAssignmentStatement()
  *       | IfStatement()
@@ -14,10 +14,10 @@ package syntaxtree;
  *       | PrintStatement()
  */
 public class Statement implements Node {
-   public NodeChoice nodeChoice;
+   public NodeChoice f0;
 
    public Statement(NodeChoice n0) {
-      nodeChoice = n0;
+      f0 = n0;
    }
 
    public void accept(visitor.Visitor v) {

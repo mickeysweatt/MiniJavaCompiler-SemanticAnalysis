@@ -1,13 +1,11 @@
 /**
- * Created by admin on 10/23/14.
+ * Author: Mickey Sweatt
  */
 
 import analysis.TypeCheckVisitor;
 import environment.EnvironmentBuilderUtil;
 import environment.EnvironmentBuilderVisitor;
 import environment.GlobalEnvironment;
-import parser.MiniJavaParser;
-import parser.ParseException;
 import syntaxtree.Goal;
 
 import java.io.File;
@@ -50,7 +48,11 @@ public class TypeCheck {
                         g.accept(v, env);
                         System.out.println("Type checks\n");
                     } catch (Exception err) {
-                        continue;
+                        if (err instanceof ArithmeticException) {
+                            continue;
+                        } else {
+                            err.printStackTrace();
+                        }
                     }
                 }
                 catch (ParseException e) {

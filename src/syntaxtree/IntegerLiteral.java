@@ -6,13 +6,13 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> <INTEGER_LITERAL>
+ * f0 -> <INTEGER_LITERAL>
  */
 public class IntegerLiteral implements Node {
-   public NodeToken nodeToken;
+   public NodeToken f0;
 
    public IntegerLiteral(NodeToken n0) {
-      nodeToken = n0;
+      f0 = n0;
    }
 
    public void accept(visitor.Visitor v) {

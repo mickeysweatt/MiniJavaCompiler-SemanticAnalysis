@@ -6,29 +6,29 @@ package syntaxtree;
 
 /**
  * Grammar production:
- * nodeToken -> "new"
- * identifier -> Identifier()
- * nodeToken1 -> "("
- * nodeToken2 -> ")"
+ * f0 -> "new"
+ * f1 -> Identifier()
+ * f2 -> "("
+ * f3 -> ")"
  */
 public class AllocationExpression implements Node {
-   public NodeToken nodeToken;
-   public Identifier identifier;
-   public NodeToken nodeToken1;
-   public NodeToken nodeToken2;
+   public NodeToken f0;
+   public Identifier f1;
+   public NodeToken f2;
+   public NodeToken f3;
 
    public AllocationExpression(NodeToken n0, Identifier n1, NodeToken n2, NodeToken n3) {
-      nodeToken = n0;
-      identifier = n1;
-      nodeToken1 = n2;
-      nodeToken2 = n3;
+      f0 = n0;
+      f1 = n1;
+      f2 = n2;
+      f3 = n3;
    }
 
    public AllocationExpression(Identifier n0) {
-      nodeToken = new NodeToken("new");
-      identifier = n0;
-      nodeToken1 = new NodeToken("(");
-      nodeToken2 = new NodeToken(")");
+      f0 = new NodeToken("new");
+      f1 = n0;
+      f2 = new NodeToken("(");
+      f3 = new NodeToken(")");
    }
 
    public void accept(visitor.Visitor v) {

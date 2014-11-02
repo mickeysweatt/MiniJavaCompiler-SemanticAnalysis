@@ -71,9 +71,12 @@ public class EnvironmentBuilderUtil {
                         LinkedList<VarType> superclass_params =  method.getParameterList();
                         Type subclass_retVal   =  cl.getMethod(method_name).getReturnType();
                         Type superclass_retVal =  method.getReturnType();
+                        if (!subclass_retVal.equals(superclass_retVal)) {
+                            TypeError.close("No overloading allowed");
+                        }
                         if (null == superclass_params || null == subclass_params)
                         {
-                            if ((Object)subclass_params != (Object)superclass_params)
+                            if (subclass_params != superclass_params)
                             {
                                 TypeError.close("No overloading allowed");
                             }
@@ -148,7 +151,7 @@ public class EnvironmentBuilderUtil {
     public static boolean addMethodToClass(MethodDeclaration m, ClassType curr_class, GlobalEnvironment env)
     {
         String method_name = EnvironmentUtil.methodname(m);
-        Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.type.nodeChoice.choice, env);
+        Type returnType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(m.f1.f0.choice, env);
         if (curr_class.containsMethod(method_name)) {
             close("Redefining method " + method_name + " in class " + curr_class.getClassName());
             return false;
@@ -156,13 +159,13 @@ public class EnvironmentBuilderUtil {
         else {
             MethodType method;
             method = new MethodType(method_name, returnType, curr_class, null);
-            getVariableList(m.nodeOptional.node, method, env);
+            getVariableList(m.f4.node, method, env);
             HashSet<VarType> localVars = method.getLocalVars();
             if (null == localVars)
             {
                 localVars = new HashSet<VarType>();
             }
-            getVariableList(m.nodeListOptional.nodes, localVars, env);
+            getVariableList(m.f7.nodes, localVars, env);
             curr_class.addMethod(method);
         }
         return true;
@@ -172,14 +175,14 @@ public class EnvironmentBuilderUtil {
     {
         if (null != parameter && parameter instanceof FormalParameterRest)
         {
-            getVariableList(((FormalParameterRest) parameter).formalParameter, m, env);
+            getVariableList(((FormalParameterRest) parameter).f1, m, env);
         }
 
         else if (null != parameter && parameter instanceof FormalParameter)
         {
             FormalParameter fp = (FormalParameter) parameter;
-            environment.Type parameterType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(fp.type.nodeChoice.choice, env);
-            String parameterName = fp.identifier.nodeToken.toString();
+            environment.Type parameterType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(fp.f0.f0.choice, env);
+            String parameterName = fp.f1.f0.toString();
             VarType parameter_type = new VarType(parameterType, parameterName, m);
             if (!m.containsParameter(parameter_type)) {
                 m.addParameter(parameter_type);
@@ -190,8 +193,8 @@ public class EnvironmentBuilderUtil {
         else if (null != parameter && parameter instanceof FormalParameterList)
         {
             FormalParameterList pl = (FormalParameterList) parameter;
-            getVariableList(pl.formalParameter, m, env);
-            for (Node n : pl.nodeListOptional.nodes)
+            getVariableList(pl.f0, m, env);
+            for (Node n : pl.f1.nodes)
             {
                 getVariableList(n, m, env);
             }
@@ -203,8 +206,8 @@ public class EnvironmentBuilderUtil {
         for (Node node : variableDecls)
         {
             VarDeclaration decl = (VarDeclaration) node;
-            Type varType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(decl.type.nodeChoice.choice, env);
-            String varName = decl.identifier.nodeToken.toString();
+            Type varType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(decl.f0.f0.choice, env);
+            String varName = EnvironmentUtil.identifierToString(decl.f1);
             VarType vt = new VarType(varType, varName, null);
             if (null == localVars || !localVars.contains(vt))
             {
@@ -222,8 +225,8 @@ public class EnvironmentBuilderUtil {
         for (Node node : variableDecls)
         {
             VarDeclaration decl = (VarDeclaration) node;
-            Type varType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(decl.type.nodeChoice.choice, env);
-            String varName = decl.identifier.nodeToken.toString();
+            Type varType = EnvironmentUtil.SyntaxTreeTypeToEnvironmentType(decl.f0.f0.choice, env);
+            String varName = EnvironmentUtil.identifierToString(decl.f1);
             VarType vt = new VarType(varType, varName, null);
             if (!localVars.containsEntry(vt.variableName()))
             {
@@ -239,12 +242,12 @@ public class EnvironmentBuilderUtil {
     public static ScopedEnvironment buildLocalEnvironment(MainClass mainClassDeclaration, Environment env)
     {
         GlobalEnvironment g_env = (GlobalEnvironment) env;
-        String class_name    = mainClassDeclaration.identifier.nodeToken.toString();
+        String class_name = EnvironmentUtil.identifierToString(mainClassDeclaration.f1);
         ClassType main_class = g_env.getClass(class_name);
         MethodType main_method = main_class.getMethod("main");
         ScopedEnvironment curr_env = new ScopedEnvironment(g_env, main_method);
         // add variables declared in main function
-        getVariableList(mainClassDeclaration.nodeListOptional.nodes, curr_env.getLocalVariables(), g_env);
+        getVariableList(mainClassDeclaration.f14.nodes, curr_env.getLocalVariables(), g_env);
         // add parameters to local variables
         LinkedList<VarType> parameterList = main_method.getParameterList();
         if (null != parameterList) {
@@ -260,7 +263,7 @@ public class EnvironmentBuilderUtil {
     public static ScopedEnvironment buildLocalEnvironment(ClassDeclaration classDeclaration, Environment env)
     {
         GlobalEnvironment g_env = (GlobalEnvironment) env;
-        String class_name    = classDeclaration.identifier.nodeToken.toString();
+        String class_name = EnvironmentUtil.identifierToString(classDeclaration.f1);
         ClassType curr_class = g_env.getClass(class_name);
         return new ScopedEnvironment(g_env, curr_class);
     }
@@ -268,19 +271,19 @@ public class EnvironmentBuilderUtil {
     public static ScopedEnvironment buildLocalEnvironment(ClassExtendsDeclaration classDeclaration, Environment env)
     {
         GlobalEnvironment g_env = (GlobalEnvironment) env;
-        String class_name    = classDeclaration.identifier.nodeToken.toString();
+        String class_name = EnvironmentUtil.identifierToString(classDeclaration.f1);
         ClassType curr_class = g_env.getClass(class_name);
         return new ScopedEnvironment(g_env, curr_class);
     }
 
     public static ScopedEnvironment  buildLocalEnvironment(MethodDeclaration methodDeclaration, Environment env)
     {
-        GlobalEnvironment g_env = ((ScopedEnvironment)env).getGlobalEnvironment();
-        String method_name = methodDeclaration.identifier.nodeToken.toString();
+        GlobalEnvironment g_env = env.getGlobalEnvironment();
+        String method_name = EnvironmentUtil.identifierToString(methodDeclaration.f2);
         ClassType scoping_class = (ClassType)((ScopedEnvironment)env).getScope();
         MethodType curr_method = scoping_class.getMethod(method_name);
         ScopedEnvironment curr_env = new ScopedEnvironment(g_env, curr_method);
-        getVariableList(methodDeclaration.nodeListOptional.nodes, curr_env.getLocalVariables(), g_env);
+        getVariableList(methodDeclaration.f7.nodes, curr_env.getLocalVariables(), g_env);
 
         // add parameters to local variables
         LinkedList<VarType> parameterList = curr_method.getParameterList();
