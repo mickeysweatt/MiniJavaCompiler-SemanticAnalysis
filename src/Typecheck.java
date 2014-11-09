@@ -12,8 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-
-public class TypeCheck {
+public class Typecheck {
     public static void main(String[] Args) {
         File testDir = new File("tests");
         MiniJavaParser parse = null;
@@ -64,8 +63,7 @@ public class TypeCheck {
 }
 /*
 
-
-public class TypeCheck {
+public class Typecheck {
     public static void main(String[] Args) {
         try {
             MiniJavaParser parse = new MiniJavaParser(System.in);
@@ -81,7 +79,7 @@ public class TypeCheck {
             // then type check
             TypeCheckVisitor v = new TypeCheckVisitor();
             g.accept(v, env);
-            System.out.println("Type checks\n");
+            System.out.println("Program type checked successfully");
         } catch (ParseException e) {
             System.out.println(e.toString());
         }
@@ -91,9 +89,5 @@ public class TypeCheck {
 
 
 
- */
 
-
-
-
-
+*/

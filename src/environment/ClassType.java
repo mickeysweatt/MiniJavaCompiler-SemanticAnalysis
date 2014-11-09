@@ -35,7 +35,7 @@ public class ClassType extends ScopedType {
 
     public boolean subtype(Type rhs)
     {
-        return rhs.equals(this) || m_superClasses.contains(rhs);
+        return rhs.equals(this) || m_superClasses != null && m_superClasses.contains(rhs);
     }
 
     public void addMethod(MethodType m) {

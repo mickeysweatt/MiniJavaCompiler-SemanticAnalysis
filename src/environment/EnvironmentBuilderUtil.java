@@ -74,13 +74,15 @@ public class EnvironmentBuilderUtil {
                         if (!subclass_retVal.equals(superclass_retVal)) {
                             TypeError.close("No overloading allowed");
                         }
-                        if (null == superclass_params || null == subclass_params)
+                        if (null == superclass_params || null == subclass_params ||
+                            (subclass_params.size() != superclass_params.size()))
                         {
                             if (subclass_params != superclass_params)
                             {
                                 TypeError.close("No overloading allowed");
                             }
                         }
+
                         Iterator<VarType> superclass_paramIter = superclass_params.iterator();
                         Iterator<VarType> subclass_paramIter   = subclass_params.iterator();
                         while (subclass_paramIter.hasNext() && superclass_paramIter.hasNext())

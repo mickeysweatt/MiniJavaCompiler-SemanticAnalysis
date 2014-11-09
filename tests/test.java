@@ -1,33 +1,33 @@
-class Main{
-    public static void main( String []arg)
+class Main {
+    public static void main( String[] arg)
     {
-        A b;
-        A a;
-    }
-}
-
-class A {
-    int x;
-    public int foo() {
-        return x;
-    }
-
-    public boolean bar()
-    {
-        return false;
+        System.out.println(1);
     }
 }
 
 class B extends A{
-    boolean x;
-    public boolean bar()  {
-        return x;
+    public int foo()
+    {
+        return 0;
     }
 }
 
-class foo {
-    public A bar()
+class A {
+    public int foo()
     {
-        return new B();
+        return 1;
+    }
+}
+
+class C
+{
+    public boolean foo(int x)
+    {
+        int rval;
+        A a;
+        a = new A() ;
+        rval = a.foo();
+        rval = rval + x;
+        return rval < 5;
     }
 }

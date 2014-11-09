@@ -51,6 +51,9 @@ public class EnvironmentBuilderVisitor extends GJVoidDepthFirst<GlobalEnvironmen
         if (null == super_class) {
             TypeError.close("Undeclared identifer " + super_name);
         }
+        if (null != super_class && curr_class.equals(super_class)) {
+            TypeError.close("Class: " + curr_class +  ": cannot extend itself");
+        }
         EnvironmentBuilderUtil.addInstanceVariablesToClass(d.f5, curr_class, env);
         curr_class.addSuperClass(super_class);
         env.addClass(curr_class);
